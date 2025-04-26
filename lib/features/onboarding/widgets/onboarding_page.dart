@@ -8,6 +8,7 @@ class OnboardingPage extends StatelessWidget{
     required this.buttonText,
     required this.image,
     required this.onButtonPressed,
+    required this.indicator,
   });
 
   final String title;
@@ -15,47 +16,59 @@ class OnboardingPage extends StatelessWidget{
   final String buttonText;
   final String image;
   final VoidCallback onButtonPressed;
+  final Widget indicator;
 
   @override
   Widget build(BuildContext context){
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Image.asset(
           fit: BoxFit.cover,
           image, 
-          height: 500,            
+          height: 500, 
+          width: double.infinity,           
         ),
         const SizedBox(height: 20),
-        Column(
-          children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headlineMedium,
-              textAlign: TextAlign.center,
-            ),
-            if (subtitle.isNotEmpty) ...[
-              const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
               Text(
-                subtitle,
+                title,
+                style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
               ),
-            ],     
-          ],
+              if (subtitle.isNotEmpty) ...[
+                const SizedBox(height: 16),
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],     
+            ],
+          ),
         ),
         const SizedBox(height: 20),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+        indicator,
+        const SizedBox(height: 20),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
             ),
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
+            onPressed: onButtonPressed, 
+            child: Text(buttonText),
           ),
-          onPressed: onButtonPressed, 
-          child: Text(buttonText),
         ),
+        const SizedBox(height: 10),
       ],
     );
   }
