@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/features/onboarding/widgets/onboarding_page.dart';
+import 'package:ovia_app/features/onboarding/onboarding_page.dart';
+import 'package:ovia_app/screens/login_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "image": "assets/images/onboarding/pregnant1.png",
     },
     {
-      "title": "",
+      "title": "Meet our moms!",
       "subtitle": "Meet some of the millions of people who used MyFlow to support them on their paths to parenthood.",
       "buttonText": "Next",
       "image": "assets/images/onboarding/mother_holding_child4.jpg",
@@ -41,7 +42,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
     }
   }
 

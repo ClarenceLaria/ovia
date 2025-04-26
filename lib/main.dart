@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/features/onboarding/screens/onboarding_screen.dart';
+import 'package:ovia_app/screens/onboarding_screen.dart';
 import 'core/theme/app_theme.dart';
 
 void main() {

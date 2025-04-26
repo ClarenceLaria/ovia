@@ -73,6 +73,11 @@ flutter:
     - assets/images/onboarding/mother_holding_child2.jpg
     - assets/images/onboarding/mother_holding_child3.jpg
     - assets/images/onboarding/mother_holding_child4.jpg
+    - assets/icons/google.png
+    - assets/icons/apple.png
+    - assets/icons/ovia_logo.png
+    - assets/icons/ovia_logo_icon.png
+    - assets/icons/ovia_logo_icon1.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
