@@ -5,18 +5,12 @@ class OnboardingPage extends StatelessWidget{
     super.key,
     required this.title,
     required this.subtitle,
-    required this.buttonText,
     required this.image,
-    required this.onButtonPressed,
-    required this.indicator,
   });
 
   final String title;
   final String subtitle;
-  final String buttonText;
   final String image;
-  final VoidCallback onButtonPressed;
-  final Widget indicator;
 
   @override
   Widget build(BuildContext context){
@@ -51,24 +45,6 @@ class OnboardingPage extends StatelessWidget{
           ),
         ),
         const SizedBox(height: 20),
-        indicator,
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              backgroundColor: Colors.black,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: onButtonPressed, 
-            child: Text(buttonText),
-          ),
-        ),
-        const SizedBox(height: 10),
       ],
     );
   }

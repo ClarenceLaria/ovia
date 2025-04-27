@@ -13,6 +13,7 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int currentPage = 0;
+  String buttonText = "";
 
   final List<Map<String, String>> onboardingData = [
     {
@@ -66,28 +67,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             onPageChanged: (index) {
               setState(() {
                 currentPage = index;
+                buttonText = onboardingData[index]['buttonText']!;
               });
             },
             itemBuilder: (context, index) {
-              return OnboardingPage(
-                title: onboardingData[index]['title']!,
-                subtitle: onboardingData[index]['subtitle']!,
-                buttonText: onboardingData[index]['buttonText']!,
-                image: onboardingData[index]['image']!,
-                onButtonPressed: nextPage,
-                indicator: SmoothPageIndicator(
-                    controller: _pageController,
-                    count: onboardingData.length,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.black,
-                      dotHeight: 8,
-                      dotWidth: 8,
-                      spacing: 12,
-                      expansionFactor: 4,
-                    ),
+              return Column(
+                children: [
+                  OnboardingPage(
+                    title: onboardingData[index]['title']!,
+                    subtitle: onboardingData[index]['subtitle']!,
+                    image: onboardingData[index]['image']!,
                   ),
+                  
+                ],
               );
             },  
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SmoothPageIndicator(
+                controller: _pageController,
+                count: onboardingData.length,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.black,
+                  dotHeight: 8,
+                  dotWidth: 8,
+                  spacing: 12,
+                  expansionFactor: 4,
+                ),
+              ),         
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: nextPage, 
+                  child: Text(buttonText),
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
