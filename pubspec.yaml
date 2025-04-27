@@ -31,7 +31,14 @@ dependencies:
   flutter:
     sdk: flutter
   smooth_page_indicator: ^1.2.1
+  google_fonts: ^6.2.1
+  flutter_launcher_icons: ^0.14.3
 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/ovia_logo_inverted.png"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -73,6 +80,7 @@ flutter:
     - assets/images/onboarding/mother_holding_child2.jpg
     - assets/images/onboarding/mother_holding_child3.jpg
     - assets/images/onboarding/mother_holding_child4.jpg
+    - assets/icons/
     - assets/icons/google.png
     - assets/icons/apple.png
     - assets/icons/ovia_logo.png
