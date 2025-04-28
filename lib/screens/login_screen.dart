@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ovia_app/features/login/custom_text_field.dart';
 import 'package:ovia_app/features/login/primary_button.dart';
 import 'package:ovia_app/features/login/social_login_button.dart';
+import 'package:ovia_app/screens/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -114,7 +115,12 @@ class LoginScreen extends StatelessWidget {
                   const Text("Don't have an account? "),
                   GestureDetector(
                     onTap: () {
-                      // TODO: Navigate to Sign Up screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
                     },
                     child: const Text(
                       "Sign up",
