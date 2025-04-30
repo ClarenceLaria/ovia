@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/login/primary_button.dart';
 import 'package:ovia_app/features/login/social_login_button.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -93,15 +94,13 @@ class SignUpScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         height: 50,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                          ),
+                        child: PrimaryButton(
+                          text: "Sign up",
                           onPressed: () {
-                            // Handle signup logic
+                            // TODO: Add sign in logic
                           },
-                          child: const Text('Sign Up'),
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
                         ),
                       ),
                       const SizedBox(height: 10),

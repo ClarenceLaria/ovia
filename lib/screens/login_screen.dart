@@ -105,6 +105,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           // TODO: Add sign in logic
                         },
+                        backgroundColor: Colors.black,
+                        textColor: Colors.white,
                       ),
                       const SizedBox(height: 15),
                 
