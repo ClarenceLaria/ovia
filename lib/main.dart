@@ -20,3 +20,33 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  _MyHomePageState();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/ovia-bg.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          const OnboardingScreen()
+        ],
+      ),
+    );
+  }
+}
