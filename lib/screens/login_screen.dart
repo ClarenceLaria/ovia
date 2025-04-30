@@ -55,9 +55,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                 
                       // Title
-                      const Text(
+                      Text(
                         "Sign in",
-                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       const SizedBox(height: 8),
                       const Text(
@@ -108,8 +108,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 15),
                 
-                      // OR divider
-                      const Text("or login with", style: TextStyle(color: Colors.grey)),
+                      const Row(
+                        children: [
+                          Expanded(child: Divider()),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text("or login with",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
                       const SizedBox(height: 20),
                 
                       // Social login buttons
@@ -139,7 +149,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Don't have an account? "),
+                          const Text("Don't have an account? ", 
+                            style: TextStyle(fontSize: 14),
+                          ),
                           GestureDetector(
                             onTap: () {
                               Future.microtask(() {
