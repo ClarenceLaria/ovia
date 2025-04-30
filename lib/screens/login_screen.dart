@@ -26,139 +26,145 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/ovia-bg.png'),
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
               ),
             ),
           ),
           // const Center(
           //   child: CircularProgressIndicator(),
           // ),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 24),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Colors.white.withOpacity(0.8),
-            ),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 30),
-            
-                  // Logo
-                  Image.asset('assets/icons/ovia_logo_icon.png', height: 50),
-            
-                  const SizedBox(height: 30),
-            
-                  // Title
-                  const Text(
-                    "Sign in",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    "Log in to access your account",
-                    style: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                  const SizedBox(height: 30),
-            
-                  // Email field
-                  CustomTextField(
-                    controller: emailController,
-                    hintText: "example@gmail.com",
-                    labelText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  const SizedBox(height: 16),
-            
-                  // Password field
-                  CustomTextField(
-                    controller: passwordController,
-                    hintText: "Password",
-                    labelText: "Password",
-                    isPassword: true,
-                  ),
-                  const SizedBox(height: 8),
-            
-                  // Remember me checkbox
-                  Row(
+          Column(
+            children: [
+              const Spacer(),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.white,
+                ),
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (value) {},
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
-                        ),
+                      const SizedBox(height: 10),
+                
+                      // Logo
+                      Image.asset('assets/icons/ovia_logo_icon.png', height: 50),
+                
+                      const SizedBox(height: 10),
+                
+                      // Title
+                      const Text(
+                        "Sign in",
+                        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                       ),
-                      const Text("Remember me"),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-            
-                  // Sign in button
-                  PrimaryButton(
-                    text: "Sign in",
-                    onPressed: () {
-                      // TODO: Add sign in logic
-                    },
-                  ),
-                  const SizedBox(height: 20),
-            
-                  // OR divider
-                  const Text("or login with", style: TextStyle(color: Colors.grey)),
-                  const SizedBox(height: 20),
-            
-                  // Social login buttons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SocialLoginButton(
-                        logoPath: 'assets/icons/google.png',
-                        text: 'Google',
-                        onTap: () {
-                          // TODO: Google login
-                        },
+                      const SizedBox(height: 8),
+                      const Text(
+                        "Log in to access your account",
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
                       ),
-                      const SizedBox(width: 16),
-                      SocialLoginButton(
-                        logoPath: 'assets/icons/apple.png',
-                        text: 'Apple',
-                        onTap: () {
-                          // TODO: Apple login
-                        },
+                      const SizedBox(height: 10),
+                
+                      // Email field
+                      CustomTextField(
+                        controller: emailController,
+                        hintText: "example@gmail.com",
+                        labelText: "Email",
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-            
-                  // Signup text
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Don't have an account? "),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
+                      const SizedBox(height: 16),
+                
+                      // Password field
+                      CustomTextField(
+                        controller: passwordController,
+                        hintText: "Password",
+                        labelText: "Password",
+                        isPassword: true,
+                      ),
+                      const SizedBox(height: 8),
+                
+                      // Remember me checkbox
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: false,
+                            onChanged: (value) {},
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                          );
-                        },
-                        child: const Text(
-                          "Sign up",
-                          style: TextStyle(
-                            color: Colors.pink,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
+                          const Text("Remember me"),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                
+                      // Sign in button
+                      PrimaryButton(
+                        text: "Sign in",
+                        onPressed: () {
+                          // TODO: Add sign in logic
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                
+                      // OR divider
+                      const Text("or login with", style: TextStyle(color: Colors.grey)),
+                      const SizedBox(height: 20),
+                
+                      // Social login buttons
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SocialLoginButton(
+                            logoPath: 'assets/icons/google.png',
+                            text: 'Google',
+                            onTap: () {
+                              // TODO: Google login
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                          SocialLoginButton(
+                            logoPath: 'assets/icons/apple.png',
+                            text: 'Apple',
+                            onTap: () {
+                              // TODO: Apple login
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                
+                      // Signup text
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account? "),
+                          GestureDetector(
+                            onTap: () {
+                              Future.microtask(() {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignUpScreen(),
+                                  ),
+                                );
+                              });
+                            },
+                            child: const Text(
+                              "Signup",
+                              style: TextStyle(
+                                color: Colors.pink,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
