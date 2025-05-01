@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/home/calendar.dart';
 import 'package:ovia_app/features/home/header.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Header(),
+            CycleCalendar(),
           ],
         )
       ),

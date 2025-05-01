@@ -1,1 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
+
+class CycleCalendar extends StatefulWidget {
+  const CycleCalendar({super.key});
+
+  @override
+  State<CycleCalendar> createState() => _CalendarState();
+}
+
+class _CalendarState extends State<CycleCalendar> {
+  _CalendarState();
+
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+
+  final List<DateTime> periodDays = [
+    DateTime.utc(2025, 5, 1),
+    DateTime.utc(2025, 5, 2),
+    DateTime.utc(2025, 5, 3),
+    DateTime.utc(2025, 5, 4),
+  ];
+
+  final List<DateTime> fertileWindow = [
+    DateTime.utc(2025, 5, 5),
+    DateTime.utc(2025, 5, 6),
+    DateTime.utc(2025, 5, 7),
+  ];
+
+  final DateTime ovulationDay = DateTime.utc(2025, 5, 11);
+
+  bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: TableCalendar(
+        firstDay: DateTime.utc(2020, 1, 1),
+        lastDay: DateTime.utc(2030, 12, 31),
+        focusedDay: _focusedDay,
+        selectedDayPredicate: (day) => _selectedDay != null && _isSameDay(_selectedDay!, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
+        },
+        calendarStyle: const CalendarStyle(
+          todayDecoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+          ),
+           selectedDecoration: BoxDecoration(
+            color: Colors.deepPurple,
+            shape: BoxShape.circle,
+          ),
+          markerDecoration: BoxDecoration(
+            color: Colors.blue,
+            shape: BoxShape.circle,
+          ),
+        ),
+        calendarBuilders: CalendarBuilders(
+          defaultBuilder: (context, day, focusedDay) {
+            if (periodDays.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.pink);
+            } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.purple);
+            } else if (_isSameDay(day, ovulationDay)) {
+              return _cycleDot(day, Colors.blue);
+            }
+            return null;
+          },
+        ),
+        availableCalendarFormats: const{
+          CalendarFormat.twoWeeks: '2 Weeks',
+        },
+        calendarFormat: _calendarFormat,
+        onFormatChanged: (format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _cycleDot(DateTime day, Color color) {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color.withOpacity(0.15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            day.day.toString(),
+            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+}
