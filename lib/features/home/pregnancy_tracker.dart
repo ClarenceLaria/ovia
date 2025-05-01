@@ -36,13 +36,22 @@ class PregnancyTracker extends StatelessWidget {
                   valueColor: const AlwaysStoppedAnimation(Colors.purple),
                 ),
               ),
-              Image.asset('assets/images/fetus.png', height: 220),
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(150),
+                  color: Colors.pink.shade100.withOpacity(0.25),
+                ),
+                padding: const EdgeInsets.all(20),
+                child: Image.asset('assets/images/baby.png', height: 80)
+              ),
             ],
           ),
          Column(
             children: [
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.pink.shade300, width: 2),
                   borderRadius: BorderRadius.circular(20),
