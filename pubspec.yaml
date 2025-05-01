@@ -71,16 +71,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/onboarding/cramps1.png
-    - assets/images/onboarding/cramps2.png
     - assets/images/onboarding/pregnant1.png
-    - assets/images/onboarding/pregnant2.png
-    - assets/images/onboarding/child.jpg
-    - assets/images/onboarding/family.jpg
-    - assets/images/onboarding/infant.jpg
-    - assets/images/onboarding/mother_holding_child.jpg
-    - assets/images/onboarding/mother_holding_child1.jpg
-    - assets/images/onboarding/mother_holding_child2.jpg
-    - assets/images/onboarding/mother_holding_child3.jpg
     - assets/images/onboarding/mother_holding_child4.jpg
     - assets/icons/
     - assets/icons/google.png
