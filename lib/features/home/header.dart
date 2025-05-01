@@ -23,15 +23,10 @@ class Header extends StatelessWidget {
               ),
             ],
           ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image.asset(
-              'assets/images/face.webp',
-              width: 35,
-              height: 35,
-              fit: BoxFit.cover,
-            ),
-          )
+          const CircleAvatar(
+            radius: 18,
+            backgroundImage: AssetImage("assets/images/face.webp"),
+          ),
         ],
       ),
     );

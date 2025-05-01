@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/features/home/calendar.dart';
 import 'package:ovia_app/features/home/header.dart';
+import 'package:ovia_app/features/home/pregnancy_tracker.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,8 +14,11 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Header(),
+            SizedBox(height: 20),
             // GradientContainer(colors: [Color.fromARGB(255, 240, 179, 243), Color.fromARGB(255,247,215,200)], begin: Alignment.topLeft, end: Alignment.bottomRight, child: CycleCalendar())
             CycleCalendar(),
+            SizedBox(height: 20),
+            PregnancyTracker(),
           ],
         )
       ),
