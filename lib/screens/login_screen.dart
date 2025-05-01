@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ovia_app/features/login/custom_text_field.dart';
 import 'package:ovia_app/features/login/primary_button.dart';
 import 'package:ovia_app/features/login/social_login_button.dart';
+import 'package:ovia_app/screens/home_screen.dart';
 import 'package:ovia_app/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -103,7 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       PrimaryButton(
                         text: "Sign in",
                         onPressed: () {
-                          // TODO: Add sign in logic
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
                         },
                         backgroundColor: Colors.black,
                         textColor: Colors.white,
