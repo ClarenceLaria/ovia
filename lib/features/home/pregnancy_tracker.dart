@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/screens/mood_and_sex_tracker.dart';
 
 class PregnancyTracker extends StatelessWidget {
   const PregnancyTracker({super.key});
@@ -50,16 +51,26 @@ class PregnancyTracker extends StatelessWidget {
           ),
          Column(
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.pink.shade300, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                child: const Text(
-                  "Week 21",
-                  style: TextStyle(fontSize: 12),
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MoodAndSexTracker(),
+                    ),
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.pink.shade300, width: 2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                  child: const Text(
+                    "Week 21",
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ),
             ],
