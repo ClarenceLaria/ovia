@@ -41,27 +41,31 @@ class _EntryPointState extends State<EntryPoint>{
     return Scaffold(
       body: screens[_selectedIndex],
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(12),
-        margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.8),
-          borderRadius: BorderRadius.circular(24),
-        ),
+        color: const Color.fromARGB(245,245,245,245),
+        padding: const EdgeInsets.only(bottom: 20),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ...List.generate(
               buttonNavs.length, 
               (index) => GestureDetector(
                 onTap: () => onTap(index),
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: 60,
+                  height: 60,
+                  margin: const EdgeInsets.symmetric(horizontal: 1),
                   decoration: BoxDecoration(
                     color: index == _selectedIndex ? Colors.black : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(40),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 30,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(20),
                   child: Image.asset(
                     buttonNavs[index], 
                     color: index == _selectedIndex ? Colors.white : Colors.black,
