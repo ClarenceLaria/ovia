@@ -1,0 +1,84 @@
+import 'package:flutter/material.dart';
+import 'package:ovia_app/screens/home_screen.dart';
+
+class EntryPoint extends StatefulWidget{
+  const EntryPoint({super.key});
+
+  @override
+  State<EntryPoint> createState() => _EntryPointState();
+}
+
+class _EntryPointState extends State<EntryPoint>{
+  _EntryPointState();
+
+  int _selectedIndex = 0;
+
+  final List<Widget> screens = [
+    const HomeScreen(),
+    const Center(child: Text('App')),
+    const Center(child: Text('Notification')),
+    const Center(child: Text('Friends')),
+  ];
+
+  void onTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final Color _activeColor = Colors.white;
+
+  Color isActive(int index){
+    if(index == _selectedIndex){
+      return _activeColor;
+    } else {
+      return Colors.black.withOpacity(0.5);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: screens[_selectedIndex],
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ...List.generate(
+              buttonNavs.length, 
+              (index) => GestureDetector(
+                onTap: () => onTap(index),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: index == _selectedIndex ? Colors.black : Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Image.asset(
+                    buttonNavs[index], 
+                    color: index == _selectedIndex ? Colors.white : Colors.black,
+                  ),
+                ),
+              )
+            )
+          ],
+        ),
+      ),
+    );
+  }  
+}
+
+List<String> buttonNavs = [
+  'assets/icons/calendar.png',
+  'assets/icons/app.png',
+  'assets/icons/notification.png',
+  'assets/icons/friends.png',
+];

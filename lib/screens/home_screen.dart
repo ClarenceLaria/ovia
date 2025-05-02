@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             Header(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             // GradientContainer(colors: [Color.fromARGB(255, 240, 179, 243), Color.fromARGB(255,247,215,200)], begin: Alignment.topLeft, end: Alignment.bottomRight, child: CycleCalendar())
             CycleCalendar(),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             PregnancyTracker(),
           ],
         )

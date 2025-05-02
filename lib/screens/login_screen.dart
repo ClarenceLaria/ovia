@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ovia_app/features/login/custom_text_field.dart';
 import 'package:ovia_app/features/login/primary_button.dart';
 import 'package:ovia_app/features/login/social_login_button.dart';
-import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/screens/entry_point.dart';
 import 'package:ovia_app/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) => EntryPoint(),
                             ),
                           );
                         },
