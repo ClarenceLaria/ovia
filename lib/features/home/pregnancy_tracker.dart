@@ -49,29 +49,26 @@ class PregnancyTracker extends StatelessWidget {
               ),
             ],
           ),
-         Column(
-            children: [
-              OutlinedButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MoodAndSexTracker(),
-                    ),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.pink.shade300, width: 2),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+          const SizedBox(height: 10),
+          OutlinedButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MoodAndSexTracker(),
                 ),
-                child: const Text(
-                  "Week 21",
-                  style: TextStyle(fontSize: 12),
-                ),
+              );
+            },
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.pink.shade300, width: 2),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-            ],
+            ),
+            child: const Text(
+              "Week 21",
+              style: TextStyle(fontSize: 12),
+            ),
           ),
         ],
       ),
