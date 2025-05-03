@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/screens/pregnancy_home_screen.dart';
 
 class EntryPoint extends StatefulWidget{
   const EntryPoint({super.key});
@@ -15,7 +16,7 @@ class _EntryPointState extends State<EntryPoint>{
 
   final List<Widget> screens = [
     const HomeScreen(),
-    const Center(child: Text('App')),
+    const Center(child: PregnancyHomeScreen()),
     const Center(child: Text('Notification')),
     const Center(child: Text('Friends')),
   ];
@@ -41,7 +42,7 @@ class _EntryPointState extends State<EntryPoint>{
     return Scaffold(
       body: screens[_selectedIndex],
       bottomNavigationBar: Container(
-        color: const Color.fromARGB(245,245,245,245),
+        color: Colors.transparent,
         padding: const EdgeInsets.only(bottom: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
