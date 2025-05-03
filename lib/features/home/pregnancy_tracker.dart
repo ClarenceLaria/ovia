@@ -51,8 +51,8 @@ class PregnancyTracker extends StatelessWidget {
           ),
          Column(
             children: [
-              GestureDetector(
-                onTap: (){
+              OutlinedButton(
+                onPressed: (){
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -60,17 +60,15 @@ class PregnancyTracker extends StatelessWidget {
                     ),
                   );
                 },
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.pink.shade300, width: 2),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: Colors.pink.shade300, width: 2),
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  child: const Text(
-                    "Week 21",
-                    style: TextStyle(fontSize: 12),
-                  ),
+                ),
+                child: const Text(
+                  "Week 21",
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
             ],
