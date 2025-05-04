@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/screens/pregnancy_feed_screen.dart';
 import 'package:ovia_app/screens/pregnancy_home_screen.dart';
 
 class EntryPoint extends StatefulWidget{
@@ -17,7 +18,7 @@ class _EntryPointState extends State<EntryPoint>{
   final List<Widget> screens = [
     const HomeScreen(),
     const PregnancyHomeScreen(),
-    const Center(child: Text('Notification')),
+    const PregnancyFeedScreen(),
     const Center(child: Text('Friends')),
   ];
 
@@ -25,16 +26,6 @@ class _EntryPointState extends State<EntryPoint>{
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  final Color _activeColor = Colors.white;
-
-  Color isActive(int index){
-    if(index == _selectedIndex){
-      return _activeColor;
-    } else {
-      return Colors.black.withOpacity(0.5);
-    }
   }
 
   @override
