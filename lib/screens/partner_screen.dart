@@ -17,48 +17,53 @@ class _PartnerScreenState extends State<PartnerScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Column(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 350,
-                    decoration: BoxDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage('assets/images/heart.webp'),
-                        fit: BoxFit.cover,
-                      ),
-                      border: Border.all(width: 2, color: Colors.white),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(16),
-                      )
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Text(
-                      'Ovia for Partners',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ),
-                  const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Share your pairing code',
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "Your partner will receive a link to download Ovia app. He'll then use the code to pair your profiles.",
-                            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+              SizedBox(
+                height: 350,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 350,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage('assets/images/heart.webp'),
+                          fit: BoxFit.cover,
+                        ),
+                        border: Border.all(width: 2, color: Colors.white),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(16),
+                        )
                       ),
                     ),
-                  ),
-                ],
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        'Ovia for Partners',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ),
+                    const Positioned(
+                      bottom: 16,
+                      left: 16,
+                      right: 16,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Share your pairing code',
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            Text(
+                              "Your partner will receive a link to download Ovia app. He'll then use the code to pair your profiles.",
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Container(
