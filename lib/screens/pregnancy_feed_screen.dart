@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/pregnancy_feed/following_feed.dart';
 import 'package:ovia_app/features/pregnancy_feed/popular_feed.dart';
+import 'package:ovia_app/features/pregnancy_feed/saved_feed.dart';
 
 class PregnancyFeedScreen extends StatefulWidget {
   const PregnancyFeedScreen({super.key});
@@ -13,8 +15,8 @@ class _PregnancyFeedScreenState extends State<PregnancyFeedScreen> {
   int _selectedIndex = 0;
   final List<Widget> tabs = [
     const PopularFeeds(),
-    const Center(child: Text('Following')),
-    const Center(child: Text('Saved')),
+    const FollowingFeeds(),
+    const SavedFeed(),
     const Center(child: Text('My comments')),
   ];
   final List<String> buttonTabs = [
