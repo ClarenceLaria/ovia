@@ -20,19 +20,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       "title": "Here's what to expect in your first trimester",
       "subtitle": "",
       "buttonText": "Get started",
-      "image": "assets/images/onboarding/cramps1.png",
+      "image": "assets/images/onboarding/cramps1.webp",
     },
     {
       "title": "Expect in your first trimester",
       "subtitle": "You may feel nauseous and more tired than usual.",
       "buttonText": "Continue to symptoms",
-      "image": "assets/images/onboarding/pregnant1.png",
+      "image": "assets/images/onboarding/pregnant1.webp",
     },
     {
       "title": "Meet our moms!",
       "subtitle": "Meet some of the millions of people who used MyFlow to support them on their paths to parenthood.",
       "buttonText": "Next",
-      "image": "assets/images/onboarding/mother_holding_child4.jpg",
+      "image": "assets/images/onboarding/mother_holding_child4.webp",
     },
   ];
 

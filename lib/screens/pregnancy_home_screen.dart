@@ -46,12 +46,12 @@ class PregnancyHomeScreen extends StatelessWidget {
                       _ImageCardData(
                         label: "8 bump-friendly sex positions",
                         color: Colors.purple.shade100,
-                        image: 'assets/images/onboarding/pregnant1.png',
+                        image: 'assets/images/onboarding/pregnant1.webp',
                       ),
                       _ImageCardData(
                         label: "Your pregnancy sex need to know",
                         color: Colors.orange.shade100,
-                        image: 'assets/images/onboarding/cramps1.png',
+                        image: 'assets/images/onboarding/cramps1.webp',
                       ),
                     ]),
                      const SizedBox(height: 12),
@@ -61,12 +61,12 @@ class PregnancyHomeScreen extends StatelessWidget {
                       _ImageCardData(
                         label: "8 bump-friendly sex positions",
                         color: Colors.purple.shade100,
-                        image: 'assets/images/onboarding/pregnant1.png',
+                        image: 'assets/images/onboarding/pregnant1.webp',
                       ),
                       _ImageCardData(
                         label: "Your pregnancy sex need to know",
                         color: Colors.orange.shade100,
-                        image: 'assets/images/onboarding/cramps1.png',
+                        image: 'assets/images/onboarding/cramps1.webp',
                       ),
                     ]),
                   ],
