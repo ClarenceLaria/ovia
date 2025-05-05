@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/screens/partner_screen.dart';
 import 'package:ovia_app/screens/pregnancy_feed_screen.dart';
 import 'package:ovia_app/screens/pregnancy_home_screen.dart';
 
@@ -19,7 +20,7 @@ class _EntryPointState extends State<EntryPoint>{
     const HomeScreen(),
     const PregnancyHomeScreen(),
     const PregnancyFeedScreen(),
-    const Center(child: Text('Friends')),
+    const PartnerScreen(),
   ];
 
   void onTap(int index) {
