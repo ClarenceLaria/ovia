@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/pregnancy_feed/comments_feed.dart';
 import 'package:ovia_app/features/pregnancy_feed/following_feed.dart';
 import 'package:ovia_app/features/pregnancy_feed/popular_feed.dart';
 import 'package:ovia_app/features/pregnancy_feed/saved_feed.dart';
@@ -17,7 +18,7 @@ class _PregnancyFeedScreenState extends State<PregnancyFeedScreen> {
     const PopularFeeds(),
     const FollowingFeeds(),
     const SavedFeed(),
-    const Center(child: Text('My comments')),
+    const CommentsFeed(),
   ];
   final List<String> buttonTabs = [
     'Popular',
