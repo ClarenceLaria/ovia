@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class PartnerScreen extends StatefulWidget {
   const PartnerScreen({super.key});
 
+  final bool isPairing = false;
+
   @override
   State<PartnerScreen> createState() => _PartnerScreenState();
 }
@@ -25,8 +27,8 @@ class _PartnerScreenState extends State<PartnerScreen> {
                       width: double.infinity,
                       height: 350,
                       decoration: BoxDecoration(
-                        image: const DecorationImage(
-                          image: AssetImage('assets/images/heart.webp'),
+                        image: DecorationImage(
+                          image: widget.isPairing ? const AssetImage('assets/images/time.jpg') : const AssetImage('assets/images/heart1.jpg'),
                           fit: BoxFit.cover,
                         ),
                         border: Border.all(width: 2, color: Colors.white),
@@ -52,11 +54,11 @@ class _PartnerScreenState extends State<PartnerScreen> {
                           children: [
                             Text(
                               'Share your pairing code',
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "Your partner will receive a link to download Ovia app. He'll then use the code to pair your profiles.",
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white),
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -92,11 +94,11 @@ class _PartnerScreenState extends State<PartnerScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        'Your personal data is important. Only share it with a trusted, responsible partner.',
-                        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                        widget.isPairing ? 'Lost the code? You can send it again anytime' : 'Your personal data is important. Only share it with a trusted, responsible partner.' ,
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
@@ -113,7 +115,7 @@ class _PartnerScreenState extends State<PartnerScreen> {
                   foregroundColor: Colors.white,
                 ),
                 onPressed: (){}, 
-                child: const Text('Send pairing code'),
+                child: Text(widget.isPairing ? 'Resend the code' : 'Send pairing code'),
               ),
               const SizedBox(height: 10),
               OutlinedButton(
