@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/screens/settings_screen.dart';
 
 class PartnerScreen extends StatefulWidget {
   const PartnerScreen({super.key});
@@ -105,30 +106,43 @@ class _PartnerScreenState extends State<PartnerScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    // minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                   ),
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ),
+                    );
+                  }, 
+                  child: Text(widget.isPairing ? 'Resend the code' : 'Send pairing code'),
                 ),
-                onPressed: (){}, 
-                child: Text(widget.isPairing ? 'Resend the code' : 'Send pairing code'),
               ),
               const SizedBox(height: 10),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    // minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black,
                   ),
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.black,
+                  onPressed: (){}, 
+                  child: const Text('Cancel invite'),
                 ),
-                onPressed: (){}, 
-                child: const Text('Cancel invite'),
               ),
             ],
           ),
