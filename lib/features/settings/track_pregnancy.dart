@@ -3,6 +3,19 @@ import 'package:flutter/material.dart';
 class TrackPregnancy extends StatelessWidget {
   const TrackPregnancy({super.key});
 
+  static const List<Map<String, dynamic>> tileData1 = [
+    {'icon': Icons.lock, 'title': 'Pregnancy settings'},
+    {'icon': Icons.upload, 'title': 'Export data'},
+    {'icon': Icons.settings_backup_restore, 'title': 'Restore data'},
+  ];
+
+  static const List<Map<String, dynamic>> tileData2 = [
+    {'icon': Icons.auto_graph, 'title': 'Graphs & reports'},
+    {'icon': Icons.lock, 'title': 'App lock'},
+    {'icon': Icons.notifications, 'title': 'Reminder'},
+    {'icon': Icons.headphones, 'title': 'Support'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -10,24 +23,15 @@ class TrackPregnancy extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildCardSection([
-            _buildListTile(Icons.lightbulb_circle_outlined, 'Pregnancy settings'),
-            _buildListTile(Icons.upload, 'Export data'),
-            _buildListTile(Icons.settings_backup_restore, 'Restore data'),
-          ]),
+          _buildCardSection(tileData1),
           const SizedBox(height: 20),
-          _buildCardSection([
-            _buildListTile(Icons.auto_graph, 'Graphs & reports'),
-            _buildListTile(Icons.lock, 'App lock'),
-            _buildListTile(Icons.notifications, 'Reminder'),
-            _buildListTile(Icons.headphones, 'Support'),
-          ]),
+          _buildCardSection(tileData2),
         ],
       ),
     );
   }
 
-  Widget _buildCardSection(List<Widget> items) {
+  Widget _buildCardSection(List<Map<String, dynamic>> data) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
@@ -42,19 +46,29 @@ class TrackPregnancy extends StatelessWidget {
         ],
       ),
       child: Column(
-        children: items,
+        children: List.generate(data.length, (index) {
+          final item = data[index];
+          final isLast = index == data.length - 1;
+          return _buildListTile(item['icon'], item['title'], isLast: isLast);
+        }),
       ),
     );
   }
 
-  Widget _buildListTile(IconData icon, String title) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.black, size: 22),
-      title: Text(title, style: const TextStyle(fontSize: 14)),
-      trailing: const Icon(Icons.chevron_right_outlined, size: 20),
-      horizontalTitleGap: 8,
-      dense: true,
-      visualDensity: VisualDensity.compact,
+  Widget _buildListTile(IconData icon, String title, {bool isLast = false}) {
+    return Column(
+      children: [
+        ListTile(
+          leading: Icon(icon, color: Colors.black, size: 22),
+          title: Text(title, style: const TextStyle(fontSize: 14)),
+          trailing: const Icon(Icons.chevron_right_outlined, size: 20),
+          horizontalTitleGap: 8,
+          dense: true,
+          visualDensity: VisualDensity.compact,
+        ),
+        if (!isLast)
+          const Divider(height: 0.5, thickness: 0.5, indent: 16, endIndent: 16),
+      ],
     );
   }
 }
