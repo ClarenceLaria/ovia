@@ -40,6 +40,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      }, 
+                      icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black,),
+                    ),
+                    const SizedBox(width: 10,),
+                    const Text(
+                      'Settings',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
                 const Text(
                   'Account',
                   style: TextStyle(
