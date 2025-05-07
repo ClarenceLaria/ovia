@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/settings/get_pregnant.dart';
 import 'package:ovia_app/features/settings/track_cycle.dart';
 import 'package:ovia_app/features/settings/track_pregnancy.dart';
 
@@ -14,7 +15,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   int _selectedIndex = 0;
   final List<Widget> tabs = [
     const TrackCycle(),
-    const Center(child: Text('Get Pregnant'),),
+    const GetPregnant(),
     const TrackPregnancy(),
   ];
   final List<String> buttonTabs = [
