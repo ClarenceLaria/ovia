@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/screens/settings_screen.dart';
+import 'package:ovia_app/screens/settings/settings_screen.dart';
 
 class PartnerScreen extends StatefulWidget {
   const PartnerScreen({super.key});
