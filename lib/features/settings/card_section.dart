@@ -28,6 +28,7 @@ class CardSection extends StatelessWidget {
             icon: item['icon'] as IconData,
             title: item['title'] as String,
             isLast: isLast,
+            route: item['route'] as Widget?,
           );
         }),
       ),
@@ -39,28 +40,40 @@ class _CardListTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final bool isLast;
+  final Widget? route;
 
   const _CardListTile({
     required this.icon,
     required this.title,
     this.isLast = false,
+    this.route,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          leading: Icon(icon, color: Colors.black, size: 22),
-          title: Text(title, style: const TextStyle(fontSize: 14)),
-          trailing: const Icon(Icons.chevron_right_outlined, size: 20),
-          horizontalTitleGap: 8,
-          dense: true,
-          visualDensity: VisualDensity.compact,
-        ),
-        if (!isLast)
-          const Divider(height: 0.5, thickness: 0.5, indent: 16, endIndent: 16),
-      ],
+    return GestureDetector(
+      onTap: () {
+        if (route != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => route!),
+          );
+        }
+      },
+      child: Column(
+        children: [
+          ListTile(
+            leading: Icon(icon, color: Colors.black, size: 22),
+            title: Text(title, style: const TextStyle(fontSize: 14)),
+            trailing: const Icon(Icons.chevron_right_outlined, size: 20),
+            horizontalTitleGap: 8,
+            dense: true,
+            visualDensity: VisualDensity.compact,
+          ),
+          if (!isLast)
+            const Divider(height: 0.5, thickness: 0.5, indent: 16, endIndent: 16),
+        ],
+      ),
     );
   }
 }
