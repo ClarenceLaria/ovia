@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/features/settings/app_lock_screen.dart';
 import 'package:ovia_app/features/settings/card_section.dart';
 import 'package:ovia_app/features/settings/graphs_reports_screen.dart';
 import 'package:ovia_app/features/settings/restore_data_screen.dart';
@@ -16,7 +17,7 @@ class TrackPregnancy extends StatelessWidget {
 
   static const List<Map<String, dynamic>> tileData2 = [
     {'icon': Icons.auto_graph, 'title': 'Graphs & reports', 'route': GraphsReportsScreen()},
-    {'icon': Icons.lock, 'title': 'App lock'},
+    {'icon': Icons.lock, 'title': 'App lock', 'route': AppLockScreen()},
     {'icon': Icons.notifications, 'title': 'Reminder'},
     {'icon': Icons.headphones, 'title': 'Support'},
   ];
