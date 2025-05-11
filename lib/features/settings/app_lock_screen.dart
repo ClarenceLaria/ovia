@@ -12,52 +12,30 @@ class AppLockScreen extends StatefulWidget {
 
 class _AppLockScreenState extends State<AppLockScreen> {
   final LocalAuthentication auth = LocalAuthentication();
-
-  // bool _isBiometricSupported = false;
-  // bool _isDeviceSupported = false;
-  // List<BiometricType> _availableBiometrics = [];
-
-  // Future<void> _initializeAuthSupport() async {
-  //   _isBiometricSupported = await auth.canCheckBiometrics;
-  //   _isDeviceSupported = await auth.isDeviceSupported();
-  //   _availableBiometrics = await auth.getAvailableBiometrics();
-  //   setState(() {});
-  // }
+  bool _authFailed = false;
 
   Future<void> _authenticate() async {
-    try{
+    try {
       final bool isAuthenticated = await auth.authenticate(
-        localizedReason: 'Please authenticate to continue',
+        localizedReason: 'Scan your fingerprint to continue',
         options: const AuthenticationOptions(biometricOnly: true),
       );
       if (isAuthenticated) {
-        // Navigate to the next screen or perform the desired action
-        Navigator.pushReplacementNamed(context, '/home'); // Replace with your home screen route
+        Navigator.pushReplacementNamed(context, '/home');
       } else {
-        // Handle authentication failure
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Authentication failed')),
-        );
+        setState(() => _authFailed = true);
       }
     } on PlatformException catch (e) {
-      if(e.code == auth_error.notEnrolled) {
-        // Handle the case when the user is not enrolled in biometric authentication
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No biometric enrolled')),
-        );
+      String errorMsg = 'Authentication failed';
+      if (e.code == auth_error.notEnrolled) {
+        errorMsg = 'No biometric enrolled';
       } else if (e.code == auth_error.lockedOut || e.code == auth_error.permanentlyLockedOut) {
-        // Handle the case when the user is locked out of biometric authentication
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Biometric authentication locked out')),
-        );
-      } else {
-        // Handle other exceptions
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Authentication failed')),
-        );
+        errorMsg = 'Biometric authentication locked out';
       }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg)),
+      );
     }
-    
   }
 
   @override
@@ -68,77 +46,96 @@ class _AppLockScreenState extends State<AppLockScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    const themeColor = Colors.pinkAccent;
 
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // App logo / icon
-                const Icon(
-                  Icons.lock_outline,
-                  size: 70,
-                  color: Colors.pink,
-                ),
-                const SizedBox(height: 40),
-                // Fingerprint icon
-                InkWell(
-                  onTap: _authenticate,
-                  borderRadius: BorderRadius.circular(100),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.pink.withOpacity(0.2),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        )
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.fingerprint,
-                      size: 60,
-                      color: Colors.pinkAccent,
-                    ),
+      body: Container(
+        width: size.width,
+        height: size.height,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFF0F6), Color(0xFFFFC4E0)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // App Icon
+                  const Icon(
+                    Icons.lock_rounded,
+                    size: 80,
+                    color: Colors.white,
+                    shadows: [Shadow(color: Colors.black26, blurRadius: 10)],
                   ),
-                ),
-                const SizedBox(height: 30),
-                const Text(
-                  'Unlock with fingerprint',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                TextButton(
-                  onPressed: () {
-                    // Handle PIN input toggle
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                  const SizedBox(height: 30),
+
+                  // Fingerprint Scan Area
+                  GestureDetector(
+                    onTap: _authenticate,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      padding: const EdgeInsets.all(30),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withOpacity(0.8),
+                        boxShadow: [
+                          BoxShadow(
+                            color: themeColor.withOpacity(0.25),
+                            blurRadius: 30,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        Icons.fingerprint,
+                        size: 60,
+                        color: _authFailed ? Colors.redAccent : themeColor,
+                      ),
                     ),
                   ),
-                  child: const Text(
-                    'Use PIN instead',
+                  const SizedBox(height: 25),
+
+                  Text(
+                    _authFailed ? 'Try again' : 'Tap to unlock with fingerprint',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: Colors.grey.shade900,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 18),
+
+                  // Use PIN Instead Button
+                  TextButton(
+                    onPressed: () {
+                      // Navigate to PIN screen or show input field
+                      Navigator.pushNamed(context, '/pin'); 
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 3,
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                    child: const Text(
+                      'Use PIN instead',
+                      style: TextStyle(
+                        color: themeColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
