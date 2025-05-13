@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1014541777300",
+    "project_id": "ovia-app",
+    "storage_bucket": "ovia-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1014541777300:android:92f6e912ad074be27f3781",
+        "android_client_info": {
+          "package_name": "com.clarencelaria.ovia_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD4rOg8gOPAunzXyx_HhEIqSKKO4XufX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
