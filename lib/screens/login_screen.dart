@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ovia_app/api_connectors/login.dart';
 import 'package:ovia_app/features/login/custom_text_field.dart';
 import 'package:ovia_app/features/login/primary_button.dart';
 import 'package:ovia_app/features/login/social_login_button.dart';
-import 'package:ovia_app/screens/entry_point.dart';
 import 'package:ovia_app/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,11 +16,26 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   _LoginScreenState();
 
+  String errorMessage = '';
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try{
+      await Auth().signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e){
+      setState(() {
+        errorMessage = e.message ?? 'An unknown error occurred';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
     return Scaffold(
       body: Stack(
         children: [
@@ -106,23 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                     return;
                                   }
-                                  final results = await Auth().loginUser(
-                                      userEmail, userPassword);
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(results),
-                                    ),
-                                  );
-
-                                  if (results == 'Login successful') {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const EntryPoint(),
-                                      ),
-                                    );
-                                  }
+                                  signInWithEmailAndPassword();
                                 },
                                 backgroundColor: Colors.black,
                                 textColor: Colors.white,

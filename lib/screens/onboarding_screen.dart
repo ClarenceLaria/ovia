@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/features/onboarding/onboarding_page.dart';
-import 'package:ovia_app/screens/login_screen.dart';
+import 'package:ovia_app/features/widget_tree.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => const WidgetTree()),
       );
     }
   }

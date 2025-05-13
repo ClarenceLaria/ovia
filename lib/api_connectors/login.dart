@@ -6,6 +6,20 @@ class Auth {
   User? get currentUser => FirebaseAuth.instance.currentUser;
   
   Stream<User?> get authStateChanges => FirebaseAuth.instance.authStateChanges();
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
    
   Future<String> loginUser(String userEmail, String userPassword) async {
     final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -22,7 +36,7 @@ class Auth {
     );
 
     if (response.statusCode == 200) {
-      print('Login successful');
+      print('Login successful ${response.body}');
       return 'Login successful';
     } else {
       print('Login failed: ${response.body}');
