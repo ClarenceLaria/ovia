@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/login.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -16,16 +17,16 @@ class Header extends StatelessWidget {
                 'Hello, ',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),Text(
-                'Olivia',
+                Auth().userName!,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
-          const CircleAvatar(
+          CircleAvatar(
             radius: 18,
-            backgroundImage: AssetImage("assets/images/face.webp"),
+            backgroundImage: AssetImage(Auth().userPhoto!),
           ),
         ],
       ),

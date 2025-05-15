@@ -4,6 +4,11 @@ import 'package:http/http.dart' as http;
 
 class Auth {
   User? get currentUser => FirebaseAuth.instance.currentUser;
+
+  String? get userName => currentUser?.displayName;
+  String? get userEmail => currentUser?.email;
+  String? get userId => currentUser?.uid;
+  String? get userPhoto => currentUser?.photoURL;
   
   Stream<User?> get authStateChanges => FirebaseAuth.instance.authStateChanges();
 
