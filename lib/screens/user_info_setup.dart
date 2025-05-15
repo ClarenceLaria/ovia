@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
+import 'package:ovia_app/screens/entry_point.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoSetupPage extends StatefulWidget {
@@ -164,28 +165,31 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
                 onPressed: () async {
                   if (_formKey.currentState!.validate() && _lastPeriodDate != null && _cycleType != null) {
                     // 🔄 Collect data
-                    final setupData = {
-                      'lastPeriodDate': _lastPeriodDate!.toIso8601String(),
-                      'cycleLength': int.parse(_cycleLengthController.text),
-                      'periodDuration': int.parse(_periodDurationController.text),
-                      'birthYear': _birthYearController.text.isNotEmpty ? int.parse(_birthYearController.text) : null,
-                      'cycleType': _cycleType,
-                    };
+                    final lastPeriodDate = _lastPeriodDate!.toIso8601String();
+                    final cycleLength = int.parse(_cycleLengthController.text);
+                    final periodDuration = int.parse(_periodDurationController.text);
+                    final birthYear = _birthYearController.text.isNotEmpty ? int.parse(_birthYearController.text) : null;
+                    final cycleType = _cycleType;
 
                     try {
                       // ✅ Save to your Firebase backend (replace this with your actual API call)
                       // await FirebaseService.saveUserInfo(setupData);
-
+                      final result = await APIs().postUserSetupInfo(lastPeriodDate: lastPeriodDate, cycleLength: cycleLength, periodDuration: periodDuration, birthYear: birthYear!, cycleType: cycleType!);
+                      if(result == 'User info posted successfully'){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Info stored successfully')),
+                        ); 
                       // ✅ Save locally that setup is complete
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.setBool('isSetupComplete', true);
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isSetupComplete', true);
 
-                      // ✅ Navigate to home
-                      if (context.mounted) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const HomeScreen()),
-                        );
+                        // ✅ Navigate to home
+                        if (context.mounted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const EntryPoint()),
+                          );
+                        }
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -202,12 +206,12 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
                   backgroundColor: Colors.pinkAccent,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(30),
                   ),
                 ),
                 child: const Text(
                   'Continue',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
                 ),
               )
             ],

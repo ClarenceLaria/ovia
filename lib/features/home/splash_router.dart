@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/screens/home_screen.dart';
+import 'package:ovia_app/screens/entry_point.dart';
 import 'package:ovia_app/screens/user_info_setup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +11,7 @@ class SplashRouter extends StatelessWidget {
     final isSetupComplete = prefs.getBool('isSetupComplete') ?? false;
 
     if (isSetupComplete) {
-      return const HomeScreen();
+      return const EntryPoint();
     } else {
       return const UserInfoSetupPage();
     }

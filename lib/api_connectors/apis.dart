@@ -1,15 +1,21 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 
 class APIs {
-  Future<String> postUserInfo({
-    required String userId,
+  Future<String> postUserSetupInfo({
     required String lastPeriodDate,
-    required String cycleLength,
-    required String periodDuration,
-    required String birthYear,
+    required int cycleLength,
+    required int periodDuration,
+    birthYear,
     required String cycleType,
   }) async {
+    final user = FirebaseAuth.instance.currentUser;
+    final userId = user?.uid;
+    if (user == null) {
+      return 'Error: User not logged in';
+    }
+    birthYear = birthYear ?? '';
     final response = await http.post(
       Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/save-user-info'),
       headers: {'Content-Type': 'application/json'},

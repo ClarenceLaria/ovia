@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/features/home/splash_router.dart';
 import 'package:ovia_app/screens/home_screen.dart';
 import 'package:ovia_app/screens/partner_screen.dart';
 import 'package:ovia_app/screens/pregnancy_feed_screen.dart';
@@ -18,7 +17,7 @@ class _EntryPointState extends State<EntryPoint>{
   int _selectedIndex = 0;
 
   final List<Widget> screens = [
-    const SplashRouter(),
+    const HomeScreen(),
     const PregnancyHomeScreen(),
     const PregnancyFeedScreen(),
     const PartnerScreen(),

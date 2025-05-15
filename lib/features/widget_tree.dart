@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/api_connectors/login.dart';
-import 'package:ovia_app/screens/entry_point.dart';
+import 'package:ovia_app/features/home/splash_router.dart';
 import 'package:ovia_app/screens/login_screen.dart';
 
 class WidgetTree extends StatefulWidget {
@@ -19,7 +19,7 @@ class _WidgetTreeState extends State<WidgetTree> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasData) {
-          return const EntryPoint();
+          return const SplashRouter();
         } else {
           return const LoginScreen();
         }
