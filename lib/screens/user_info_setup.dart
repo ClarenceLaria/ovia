@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ovia_app/screens/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserInfoSetupPage extends StatefulWidget {
   const UserInfoSetupPage({super.key});
@@ -159,11 +161,40 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
               const SizedBox(height: 30),
 
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Save logic here
+                onPressed: () async {
+                  if (_formKey.currentState!.validate() && _lastPeriodDate != null && _cycleType != null) {
+                    // 🔄 Collect data
+                    final setupData = {
+                      'lastPeriodDate': _lastPeriodDate!.toIso8601String(),
+                      'cycleLength': int.parse(_cycleLengthController.text),
+                      'periodDuration': int.parse(_periodDurationController.text),
+                      'birthYear': _birthYearController.text.isNotEmpty ? int.parse(_birthYearController.text) : null,
+                      'cycleType': _cycleType,
+                    };
+
+                    try {
+                      // ✅ Save to your Firebase backend (replace this with your actual API call)
+                      // await FirebaseService.saveUserInfo(setupData);
+
+                      // ✅ Save locally that setup is complete
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('isSetupComplete', true);
+
+                      // ✅ Navigate to home
+                      if (context.mounted) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        );
+                      }
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Failed to save info: $e')),
+                      );
+                    }
+                  } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Information saved')),
+                      const SnackBar(content: Text('Please complete all required fields')),
                     );
                   }
                 },
