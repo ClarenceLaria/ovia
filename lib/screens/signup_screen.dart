@@ -11,7 +11,6 @@ class SignUpScreen extends StatefulWidget {
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-
 class _SignUpScreenState extends State<SignUpScreen> {
   _SignUpScreenState();
 
@@ -20,7 +19,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
 
     @override
     void dispose() {
@@ -48,13 +48,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   const SizedBox(height: 40), // or Spacer() if needed
                   Container(
-                    margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 24),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -71,7 +73,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           const SizedBox(height: 10),
                           Text(
                             "Sign up to get started!",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.black54),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Colors.black54),
                           ),
                           const SizedBox(height: 10),
                           TextField(
@@ -79,7 +84,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Name',
                               prefixIcon: Icon(Icons.person_outline),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -88,7 +95,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Email',
                               prefixIcon: Icon(Icons.email_outlined),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -98,7 +107,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Password',
                               prefixIcon: Icon(Icons.lock_outline),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -108,7 +119,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             decoration: const InputDecoration(
                               labelText: 'Confirm Password',
                               prefixIcon: Icon(Icons.lock_outline),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(12))),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -121,24 +134,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 final name = nameController.text.trim();
                                 final email = emailController.text.trim();
                                 final password = passwordController.text.trim();
-                                final confirmPassword = confirmPasswordController.text.trim();
+                                final confirmPassword =
+                                    confirmPasswordController.text.trim();
 
                                 if (password != confirmPassword) {
                                   // Show error to user
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Passwords do not match')),
+                                    const SnackBar(
+                                      content: Text('Passwords do not match'),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
                                   );
                                   return;
                                 }
 
-                                final result = await registerUser(name, email, password);
+                                final result =
+                                    await registerUser(name, email, password);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(result)),
+                                  SnackBar(
+                                    content: Text(result),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
                                 );
                                 if (result == 'Registration successful') {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen()),
                                   );
                                 }
                               },
@@ -152,7 +175,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Expanded(child: Divider()),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text("or sign up with", style: TextStyle(fontSize: 14)),
+                                child: Text("or sign up with",
+                                    style: TextStyle(fontSize: 14)),
                               ),
                               Expanded(child: Divider()),
                             ],
@@ -178,7 +202,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text("Already have an account? ", style: TextStyle(fontSize: 14)),
+                              const Text("Already have an account? ",
+                                  style: TextStyle(fontSize: 14)),
                               GestureDetector(
                                 onTap: () => Navigator.pop(context),
                                 child: const Text(

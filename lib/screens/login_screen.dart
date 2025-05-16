@@ -22,12 +22,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   Future<void> signInWithEmailAndPassword() async {
-    try{
+    try {
       await Auth().signInWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-    } on FirebaseAuthException catch (e){
+    } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? 'An unknown error occurred';
       });
@@ -58,27 +58,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       const Spacer(),
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 24),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 24, vertical: 16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(height: 10),
-                              Image.asset('assets/icons/ovia_logo_icon.png', height: 50),
+                              Image.asset('assets/icons/ovia_logo_icon.png',
+                                  height: 50),
                               const SizedBox(height: 10),
                               Text(
                                 "Sign in",
-                                style: Theme.of(context).textTheme.headlineMedium,
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium,
                               ),
                               const SizedBox(height: 8),
                               const Text(
                                 "Log in to access your account",
-                                style: TextStyle(color: Colors.grey, fontSize: 16),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 16),
                               ),
                               const SizedBox(height: 10),
                               CustomTextField(
@@ -112,11 +117,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 text: "Sign in",
                                 onPressed: () async {
                                   final userEmail = emailController.text.trim();
-                                  final userPassword = passwordController.text.trim();
-                                  if (userEmail.isEmpty || userPassword.isEmpty) {
+                                  final userPassword =
+                                      passwordController.text.trim();
+                                  if (userEmail.isEmpty ||
+                                      userPassword.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                        content: Text("Please fill in all fields"),
+                                        content:
+                                            Text("Please fill in all fields"),
+                                        behavior: SnackBarBehavior.floating,
                                       ),
                                     );
                                     return;
@@ -131,7 +140,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 children: [
                                   Expanded(child: Divider()),
                                   Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8.0),
                                     child: Text(
                                       "or login with",
                                       style: TextStyle(fontSize: 14),
@@ -170,7 +180,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const SignUpScreen(),
+                                          builder: (context) =>
+                                              const SignUpScreen(),
                                         ),
                                       );
                                     },
@@ -196,6 +207,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-
   }
 }

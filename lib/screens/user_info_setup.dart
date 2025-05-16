@@ -163,23 +163,36 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
 
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState!.validate() && _lastPeriodDate != null && _cycleType != null) {
+                  if (_formKey.currentState!.validate() &&
+                      _lastPeriodDate != null &&
+                      _cycleType != null) {
                     // 🔄 Collect data
                     final lastPeriodDate = _lastPeriodDate!.toIso8601String();
                     final cycleLength = int.parse(_cycleLengthController.text);
-                    final periodDuration = int.parse(_periodDurationController.text);
-                    final birthYear = _birthYearController.text.isNotEmpty ? int.parse(_birthYearController.text) : null;
+                    final periodDuration =
+                        int.parse(_periodDurationController.text);
+                    final birthYear = _birthYearController.text.isNotEmpty
+                        ? int.parse(_birthYearController.text)
+                        : null;
                     final cycleType = _cycleType;
 
                     try {
                       // ✅ Save to your Firebase backend (replace this with your actual API call)
                       // await FirebaseService.saveUserInfo(setupData);
-                      final result = await APIs().postUserSetupInfo(lastPeriodDate: lastPeriodDate, cycleLength: cycleLength, periodDuration: periodDuration, birthYear: birthYear!, cycleType: cycleType!);
-                      if(result == 'User info posted successfully'){
+                      final result = await APIs().postUserSetupInfo(
+                          lastPeriodDate: lastPeriodDate,
+                          cycleLength: cycleLength,
+                          periodDuration: periodDuration,
+                          birthYear: birthYear!,
+                          cycleType: cycleType!);
+                      if (result == 'User info posted successfully') {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Info stored successfully')),
-                        ); 
-                      // ✅ Save locally that setup is complete
+                          const SnackBar(
+                            content: Text('Info stored successfully'),
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                        // ✅ Save locally that setup is complete
                         final prefs = await SharedPreferences.getInstance();
                         await prefs.setBool('isSetupComplete', true);
 
@@ -187,18 +200,25 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
                         if (context.mounted) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (_) => const EntryPoint()),
+                            MaterialPageRoute(
+                                builder: (_) => const EntryPoint()),
                           );
                         }
                       }
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Failed to save info: $e')),
+                        SnackBar(
+                          content: Text('Failed to save info: $e'),
+                          behavior: SnackBarBehavior.floating,
+                        ),
                       );
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please complete all required fields')),
+                      const SnackBar(
+                        content: Text('Please complete all required fields'),
+                        behavior: SnackBarBehavior.floating,
+                      ),
                     );
                   }
                 },
@@ -211,7 +231,10 @@ class _UserInfoSetupPageState extends State<UserInfoSetupPage> {
                 ),
                 child: const Text(
                   'Continue',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
               )
             ],

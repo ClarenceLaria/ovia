@@ -29,11 +29,15 @@ class _AppLockScreenState extends State<AppLockScreen> {
       String errorMsg = 'Authentication failed';
       if (e.code == auth_error.notEnrolled) {
         errorMsg = 'No biometric enrolled';
-      } else if (e.code == auth_error.lockedOut || e.code == auth_error.permanentlyLockedOut) {
+      } else if (e.code == auth_error.lockedOut ||
+          e.code == auth_error.permanentlyLockedOut) {
         errorMsg = 'Biometric authentication locked out';
       }
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMsg)),
+        SnackBar(
+          content: Text(errorMsg),
+          behavior: SnackBarBehavior.floating,
+        ),
       );
     }
   }
@@ -103,7 +107,9 @@ class _AppLockScreenState extends State<AppLockScreen> {
                   const SizedBox(height: 25),
 
                   Text(
-                    _authFailed ? 'Try again' : 'Tap to unlock with fingerprint',
+                    _authFailed
+                        ? 'Try again'
+                        : 'Tap to unlock with fingerprint',
                     style: TextStyle(
                       fontSize: 17,
                       color: Colors.grey.shade900,
@@ -116,12 +122,13 @@ class _AppLockScreenState extends State<AppLockScreen> {
                   TextButton(
                     onPressed: () {
                       // Navigate to PIN screen or show input field
-                      Navigator.pushNamed(context, '/pin'); 
+                      Navigator.pushNamed(context, '/pin');
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.white,
                       elevation: 3,
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 12),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
