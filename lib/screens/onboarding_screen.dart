@@ -51,6 +51,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    buttonText = onboardingData[0]['buttonText']!;
+  }
+
+
+  @override
   void dispose(){
     _pageController.dispose();
     super.dispose();
