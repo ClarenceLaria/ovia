@@ -36,4 +36,24 @@ class APIs {
     }
   }
 
+  Future<Map<String, dynamic>?> fetchUserCycle(String userId) async {
+    final url = Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/get-user-cycle?userId=$userId'); 
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data;
+      } else {
+        print('Error: ${response.statusCode} - ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching cycle: $e');
+      return null;
+    }
+  }
+
+
 }

@@ -30,16 +30,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     },
     {
       "title": "Meet our moms!",
-      "subtitle": "Meet some of the millions of people who used MyFlow to support them on their paths to parenthood.",
+      "subtitle":
+          "Meet some of the millions of people who used Ovia to support them on their paths to parenthood.",
       "buttonText": "Next",
       "image": "assets/images/onboarding/mother_holding_child4.webp",
     },
   ];
 
   void nextPage() {
-    if (currentPage < onboardingData.length - 1){
+    if (currentPage < onboardingData.length - 1) {
       _pageController.nextPage(
-        duration: const Duration(milliseconds: 300), 
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     } else {
@@ -56,9 +57,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     buttonText = onboardingData[0]['buttonText']!;
   }
 
-
   @override
-  void dispose(){
+  void dispose() {
     _pageController.dispose();
     super.dispose();
   }
@@ -85,10 +85,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     subtitle: onboardingData[index]['subtitle']!,
                     image: onboardingData[index]['image']!,
                   ),
-                  
                 ],
               );
-            },  
+            },
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -103,7 +102,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   spacing: 12,
                   expansionFactor: 4,
                 ),
-              ),         
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -116,7 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: nextPage, 
+                  onPressed: nextPage,
                   child: Text(buttonText),
                 ),
               ),
@@ -124,19 +123,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('OVIA', style: Theme.of(context).textTheme.headlineMedium),
                 currentPage < onboardingData.length - 1
-                  ? TextButton(
-                      onPressed: () {
-                        _pageController.jumpToPage(onboardingData.length - 1);
-                      },
-                      child: const Text('Skip', style: TextStyle(color: Colors.black45),),
-                    )
-                  : const SizedBox.shrink(),
+                    ? TextButton(
+                        onPressed: () {
+                          _pageController.jumpToPage(onboardingData.length - 1);
+                        },
+                        child: const Text(
+                          'Skip',
+                          style: TextStyle(color: Colors.black45),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),
