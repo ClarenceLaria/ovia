@@ -118,16 +118,25 @@ class _CalendarState extends State<CycleCalendar> {
           ),
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
-              if (periodDays.any((d) => _isSameDay(d, day))) {
+              if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+                return _cycleDot(day, Colors.blue); 
+              } else if (periodDays.any((d) => _isSameDay(d, day))) {
                 return _cycleDot(day, Colors.pink);
               } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
                 return _cycleDot(day, Colors.purple);
-              } else if (ovulationDay != null &&
-                  _isSameDay(day, ovulationDay!)) {
-                return _cycleDot(day, Colors.blue);
               }
               return null;
             },
+            outsideBuilder: (context, day, focusedDay){
+              if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+                return _cycleDot(day, Colors.blue);
+              } else if (periodDays.any((d) => _isSameDay(d, day))) {
+                return _cycleDot(day, Colors.pink);
+              } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
+                return _cycleDot(day, Colors.purple);
+              }
+              return null;
+            }
           ),
           availableCalendarFormats: const {
             CalendarFormat.twoWeeks: '2 Weeks',
