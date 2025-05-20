@@ -53,21 +53,6 @@ class _CalendarState extends State<CycleCalendar> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // final List<DateTime> periodDays = [
-  //   DateTime.utc(2025, 5, 1),
-  //   DateTime.utc(2025, 5, 2),
-  //   DateTime.utc(2025, 5, 3),
-  //   DateTime.utc(2025, 5, 4),
-  // ];
-
-  // final List<DateTime> fertileWindow = [
-  //   DateTime.utc(2025, 5, 5),
-  //   DateTime.utc(2025, 5, 6),
-  //   DateTime.utc(2025, 5, 7),
-  // ];
-
-  // final DateTime ovulationDay = DateTime.utc(2025, 5, 11);
-
   @override
   void initState() {
     super.initState();
@@ -116,28 +101,26 @@ class _CalendarState extends State<CycleCalendar> {
               shape: BoxShape.circle,
             ),
           ),
-          calendarBuilders: CalendarBuilders(
-            defaultBuilder: (context, day, focusedDay) {
-              if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
-                return _cycleDot(day, Colors.blue); 
-              } else if (periodDays.any((d) => _isSameDay(d, day))) {
-                return _cycleDot(day, Colors.pink);
-              } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
-                return _cycleDot(day, Colors.purple);
-              }
-              return null;
-            },
-            outsideBuilder: (context, day, focusedDay){
-              if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
-                return _cycleDot(day, Colors.blue);
-              } else if (periodDays.any((d) => _isSameDay(d, day))) {
-                return _cycleDot(day, Colors.pink);
-              } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
-                return _cycleDot(day, Colors.purple);
-              }
-              return null;
+          calendarBuilders:
+              CalendarBuilders(defaultBuilder: (context, day, focusedDay) {
+            if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+              return _cycleDot(day, Colors.blue, label: "🥚");
+            } else if (periodDays.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.pink);
+            } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.purple);
             }
-          ),
+            return null;
+          }, outsideBuilder: (context, day, focusedDay) {
+            if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+              return _cycleDot(day, Colors.blue, label: "🥚");
+            } else if (periodDays.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.pink);
+            } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.purple);
+            }
+            return null;
+          }),
           availableCalendarFormats: const {
             CalendarFormat.twoWeeks: '2 Weeks',
           },
@@ -152,7 +135,7 @@ class _CalendarState extends State<CycleCalendar> {
     );
   }
 
-  Widget _cycleDot(DateTime day, Color color) {
+  Widget _cycleDot(DateTime day, Color color, {String? label}) {
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -162,7 +145,7 @@ class _CalendarState extends State<CycleCalendar> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            day.day.toString(),
+            label ?? day.day.toString(),
             style: TextStyle(color: color, fontWeight: FontWeight.bold),
           ),
         ),
