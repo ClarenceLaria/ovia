@@ -21,7 +21,7 @@ class _CalendarState extends State<CycleCalendar> {
 
   List<DateTime> periodDays = [];
   List<DateTime> fertileWindow = [];
-  DateTime? ovulationDay;
+  List<DateTime> ovulationDays = [];
 
   void getCycleData() async {
     final userId = getCurrentUserId();
@@ -33,13 +33,12 @@ class _CalendarState extends State<CycleCalendar> {
             data['periodDays'].map((date) => DateTime.parse(date)).toList());
         fertileWindow = List<DateTime>.from(
             data['fertileWindow'].map((date) => DateTime.parse(date)).toList());
-        ovulationDay = data['ovulationDay'] != null
-            ? DateTime.parse(data['ovulationDay'])
-            : null;
+        ovulationDays = List<DateTime>.from(
+            data['ovulationDays'].map((date) => DateTime.parse(date)).toList());
       });
       print("Period Days: ${data['periodDays']}");
       print("Fertile Window: ${data['fertileWindow']}");
-      print("Ovulation Day: ${data['ovulationDay']}");
+      print("Ovulation Days: ${data['ovulationDays']}");
     } else {
       print("Failed to fetch user cycle.");
     }
@@ -103,7 +102,7 @@ class _CalendarState extends State<CycleCalendar> {
           ),
           calendarBuilders:
               CalendarBuilders(defaultBuilder: (context, day, focusedDay) {
-            if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+            if (ovulationDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.blue, label: "🥚");
             } else if (periodDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.pink);
@@ -112,7 +111,7 @@ class _CalendarState extends State<CycleCalendar> {
             }
             return null;
           }, outsideBuilder: (context, day, focusedDay) {
-            if (ovulationDay != null && _isSameDay(day, ovulationDay!)) {
+            if (ovulationDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.blue, label: "🥚");
             } else if (periodDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.pink);
