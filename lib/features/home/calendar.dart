@@ -27,6 +27,8 @@ class _CalendarState extends State<CycleCalendar> {
     final userId = getCurrentUserId();
     final data = await APIs().fetchUserCycle(userId!);
 
+    if (!mounted) return;
+    
     if (data != null) {
       setState(() {
         periodDays = List<DateTime>.from(
@@ -36,9 +38,6 @@ class _CalendarState extends State<CycleCalendar> {
         ovulationDays = List<DateTime>.from(
             data['ovulationDays'].map((date) => DateTime.parse(date)).toList());
       });
-      print("Period Days: ${data['periodDays']}");
-      print("Fertile Window: ${data['fertileWindow']}");
-      print("Ovulation Days: ${data['ovulationDays']}");
     } else {
       print("Failed to fetch user cycle.");
     }

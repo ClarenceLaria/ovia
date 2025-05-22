@@ -38,20 +38,19 @@ class PregnancyTracker extends StatelessWidget {
                 ),
               ),
               Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(150),
-                  color: Colors.pink.shade100.withOpacity(0.25),
-                ),
-                padding: const EdgeInsets.all(20),
-                child: Image.asset('assets/images/baby.png', height: 80)
-              ),
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(150),
+                    color: Colors.pink.shade100.withOpacity(0.25),
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  child: Image.asset('assets/images/baby.png', height: 80)),
             ],
           ),
           const SizedBox(height: 10),
           OutlinedButton(
-            onPressed: (){
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
