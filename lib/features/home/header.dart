@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ovia_app/api_connectors/login.dart';
+import 'package:ovia_app/screens/settings/settings_screen.dart';
 
 class Header extends StatelessWidget {
   const Header({super.key});
@@ -15,7 +16,7 @@ class Header extends StatelessWidget {
     return FutureBuilder<Map<String, dynamic>?>(
       future: getUserProfile(),
       builder: (context, snapshot) {
-        String userName = 'Olivia';
+        String userName = '';
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
           userName = snapshot.data?['name'];
@@ -39,9 +40,26 @@ class Header extends StatelessWidget {
                   ),
                 ],
               ),
-              const CircleAvatar(
-                radius: 18,
-                backgroundImage: AssetImage("assets/images/face.webp"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SettingsScreen(),
+                      ));
+                },
+                child: CircleAvatar(
+                    radius: 18,
+                    // backgroundImage: const AssetImage("assets/images/face.webp"),
+                    backgroundColor: Colors.black87,
+                    child: Text(
+                      userName.isNotEmpty ? userName[0].toUpperCase() : '?',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    )),
               ),
             ],
           ),

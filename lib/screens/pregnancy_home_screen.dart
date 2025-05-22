@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/login.dart';
+import 'package:ovia_app/screens/settings/settings_screen.dart';
 
 class PregnancyHomeScreen extends StatelessWidget {
   const PregnancyHomeScreen({super.key});
@@ -21,7 +23,8 @@ class PregnancyHomeScreen extends StatelessWidget {
             // Content
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -54,7 +57,7 @@ class PregnancyHomeScreen extends StatelessWidget {
                         image: 'assets/images/onboarding/cramps1.webp',
                       ),
                     ]),
-                     const SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     const _SectionTitle('Pregnancy sex and pleasure'),
                     const SizedBox(height: 12),
                     _ImageCardRow(cards: [
@@ -82,16 +85,17 @@ class PregnancyHomeScreen extends StatelessWidget {
 
 class _StickySearchBarDelegate extends SliverPersistentHeaderDelegate {
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: const Color(0xFFFDEFF3),
+      // color: const Color.fromARGB(255, 245, 245, 245),
       padding: const EdgeInsets.all(16),
       child: TextField(
         decoration: InputDecoration(
           hintText: 'Search',
           prefixIcon: const Icon(Icons.search),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: const Color.fromARGB(255, 245, 245, 245),
           contentPadding: const EdgeInsets.symmetric(vertical: 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
@@ -109,32 +113,65 @@ class _StickySearchBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => 70;
 
   @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) => false;
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
+      false;
 }
 
 class _HeaderSection extends StatelessWidget {
+  Future<Map<String, dynamic>?> getUserProfile() async {
+    final userProfile = await Auth().getUserProfile();
+    return userProfile;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            backgroundImage: AssetImage('assets/images/face.webp'),
-            radius: 20,
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: getUserProfile(),
+      builder: (context, snapshot) {
+        String userName = '';
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          userName = snapshot.data?['name'];
+        }
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              CircleAvatar(
+                // backgroundImage: AssetImage('assets/images/face.webp'),
+                radius: 20,
+                backgroundColor: Colors.black87,
+                child: Text(
+                  userName.isNotEmpty ? userName[0].toUpperCase() : '?',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Text(
+                  '',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+              IconButton(
+                  icon: const Icon(Icons.notifications_none), onPressed: () {}),
+              IconButton(
+                  icon: const Icon(Icons.settings_outlined),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsScreen(),
+                        ));
+                  }),
+            ],
           ),
-          const SizedBox(width: 12),
-          const Expanded(
-            child: Text(
-              '',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          IconButton(icon: const Icon(Icons.notifications_none), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () {}),
-        ],
-      ),
+        );
+      },
     );
   }
 }
@@ -148,8 +185,8 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       title,
-      style:
-          const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
+      style: const TextStyle(
+          fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
     );
   }
 }
@@ -159,7 +196,8 @@ class _ImageCardData {
   final Color color;
   final String image;
 
-  _ImageCardData({required this.label, required this.color, required this.image});
+  _ImageCardData(
+      {required this.label, required this.color, required this.image});
 }
 
 class _ImageCardRow extends StatelessWidget {
