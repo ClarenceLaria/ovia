@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
+import 'package:ovia_app/api_connectors/login.dart';
 
 class PregnancySetupScreen extends StatefulWidget {
   const PregnancySetupScreen({super.key});
@@ -11,8 +13,10 @@ class PregnancySetupScreen extends StatefulWidget {
 class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
   bool isPregnant = false;
   String selectedOption = '';
-  DateTime? selectedDate;
+  DateTime? selectedDueDate;
+  DateTime? selectedlmpDate;
   int? weeksPregnant;
+  final String userId = Auth().currentUser?.uid ?? '';
 
   final TextEditingController weeksController = TextEditingController();
 
@@ -25,13 +29,19 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
       lastDate: DateTime(now.year + 2),
     );
     if (picked != null && mounted) {
-      setState(() {
-        selectedDate = picked;
-      });
+      if(selectedOption == 'dueDate'){
+        setState(() {
+          selectedDueDate = picked;
+        });
+      } else {
+        setState(() {
+          selectedlmpDate = picked;
+        });
+      }
     }
   }
 
-  void _submit() {
+  void _submit() async{
     if (!isPregnant) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please confirm if you are pregnant.')),
@@ -46,26 +56,43 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
       return;
     }
 
-    if ((selectedOption == 'dueDate' || selectedOption == 'lmp') &&
-        selectedDate == null) {
+    if (selectedOption == 'dueDate' &&
+        selectedDueDate == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please select a date.')),
       );
       return;
     }
 
-    final data = {
-      "isPregnant": isPregnant,
-      "weeksPregnant": selectedOption == 'weeks' ? weeksController.text : null,
-      "dueDate":
-          selectedOption == 'dueDate' ? selectedDate?.toIso8601String() : null,
-      "lmp":
-          selectedOption == 'lmp' ? selectedDate?.toIso8601String() : null,
-    };
+    if (selectedOption == 'lmp' &&
+        selectedlmpDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a date.')),
+      );
+      return;
+    }
 
-    print("Submitted data: $data");
+    try{
+      final response = await APIs().postPregnancyInfo(
+        userId: userId,
+        weeksPregnant: int.parse(weeksController.text),
+        dueDate: selectedDueDate?.toIso8601String() ?? '',
+        lmp: selectedlmpDate?.toIso8601String() ?? '',
+      );
 
-    // TODO: Send this data to backend
+      if(response == 'Pregnancy info submitted successfully'){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Pregnancy information submitted successfully.'), backgroundColor: Colors.green, behavior: SnackBarBehavior.floating),
+        );
+
+        Navigator.pop(context);
+      }
+    }catch (e){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('An error occurred while submitting your data.'), backgroundColor: Colors.green, behavior: SnackBarBehavior.floating),
+      );
+      return;
+    }   
   }
 
   @override
@@ -89,8 +116,8 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
         return ListTile(
           title: const Text("Select your due date"),
           subtitle: Text(
-            selectedDate != null
-                ? DateFormat.yMMMMd().format(selectedDate!)
+            selectedDueDate != null
+                ? DateFormat.yMMMMd().format(selectedDueDate!)
                 : 'No date selected',
           ),
           trailing: const Icon(Icons.calendar_today),
@@ -100,8 +127,8 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
         return ListTile(
           title: const Text("Select your last menstrual period (LMP)"),
           subtitle: Text(
-            selectedDate != null
-                ? DateFormat.yMMMMd().format(selectedDate!)
+            selectedlmpDate != null
+                ? DateFormat.yMMMMd().format(selectedlmpDate!)
                 : 'No date selected',
           ),
           trailing: const Icon(Icons.calendar_today),
@@ -115,7 +142,11 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pregnancy Setup")),
+      appBar: AppBar(
+        title: const Text("Pregnancy Setup"),
+        centerTitle: true,
+      ),
+      extendBody: true,
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -123,11 +154,13 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
             SwitchListTile(
               title: const Text("Are you currently pregnant?"),
               value: isPregnant,
+              activeColor: Colors.pink,
               onChanged: (value) {
                 setState(() {
                   isPregnant = value;
                   selectedOption = '';
-                  selectedDate = null;
+                  selectedDueDate = null;
+                  selectedlmpDate = null;
                   weeksController.clear();
                 });
               },
@@ -141,6 +174,7 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
                 leading: Radio<String>(
                   value: 'weeks',
                   groupValue: selectedOption,
+                  activeColor: Colors.pink,
                   onChanged: (value) {
                     setState(() => selectedOption = value!);
                   },
@@ -151,6 +185,7 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
                 leading: Radio<String>(
                   value: 'dueDate',
                   groupValue: selectedOption,
+                  activeColor: Colors.pink,
                   onChanged: (value) {
                     setState(() => selectedOption = value!);
                   },
@@ -161,6 +196,7 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
                 leading: Radio<String>(
                   value: 'lmp',
                   groupValue: selectedOption,
+                  activeColor: Colors.pink,
                   onChanged: (value) {
                     setState(() => selectedOption = value!);
                   },
@@ -170,17 +206,21 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
               _buildInputSection(),
             ],
             const Spacer(),
-            ElevatedButton(
-              onPressed: _submit,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.pink,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _submit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.pink,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
                 ),
+                child: const Text("Submit",
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ),
-              child: const Text("Submit", style: TextStyle(fontSize: 16)),
             ),
           ],
         ),

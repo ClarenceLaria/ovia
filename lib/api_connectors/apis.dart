@@ -55,5 +55,32 @@ class APIs {
     }
   }
 
+  Future<String> postPregnancyInfo({
+    required String userId,
+    weeksPregnant,
+    dueDate,
+    lmp, //last menstrual period
+  }) async {
+    weeksPregnant = weeksPregnant;
+    dueDate = dueDate;
+    lmp = lmp;
+
+    final response = await http.post(
+      Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/save-pregnancy-info'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'userId': userId,
+        'weeksPregnant': weeksPregnant,
+        'dueDate': dueDate,
+        'lmp': lmp,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      return 'Pregnancy info submitted successfully';
+    } else {
+      return 'Failed to post pregnancy info: ${response.body}';
+    }
+  }
 
 }
