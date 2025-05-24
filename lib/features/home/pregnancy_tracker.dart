@@ -1,8 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
 import 'package:ovia_app/screens/mood_and_sex_tracker.dart';
 
-class PregnancyTracker extends StatelessWidget {
+class PregnancyTracker extends StatefulWidget {
   const PregnancyTracker({super.key});
+
+  @override
+  State<PregnancyTracker> createState() => _PregnancyTrackerState();
+}
+
+class _PregnancyTrackerState extends State<PregnancyTracker> {
+  final image = 'assets/images/baby.png';
+  double progress = 0.0;
+  int weeksPregnant = 0;
+
+  Future<void> fetchPregnancyInfo() async {
+    try {
+      final result = await APIs().fetchPregnancyInfo();
+      print(result);
+      if (result != null) {
+        if (!mounted) return;
+        setState(() {
+          progress = (result['percentageProgress'] as num?)?.toDouble() ?? 0.0;
+          weeksPregnant = result['weeksPregnant'] as int? ?? 0;
+        });
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Error fetching pregnancy data'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Internal Server Error'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPregnancyInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +79,7 @@ class PregnancyTracker extends StatelessWidget {
                 width: 200,
                 height: 200,
                 child: CircularProgressIndicator(
-                  value: 0.6,
+                  value: progress / 100,
                   strokeWidth: 15,
                   backgroundColor: Colors.pink.shade100,
                   valueColor: const AlwaysStoppedAnimation(Colors.purple),
@@ -64,9 +112,9 @@ class PregnancyTracker extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: const Text(
-              "Week 21",
-              style: TextStyle(fontSize: 12),
+            child: Text(
+              weeksPregnant.toString(),
+              style: const TextStyle(fontSize: 12),
             ),
           ),
         ],

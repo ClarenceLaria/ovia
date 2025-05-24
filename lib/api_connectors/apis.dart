@@ -17,7 +17,8 @@ class APIs {
     }
     birthYear = birthYear ?? '';
     final response = await http.post(
-      Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/save-user-info'),
+      Uri.parse(
+          'https://us-central1-ovia-app.cloudfunctions.net/api/save-user-info'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
@@ -37,7 +38,8 @@ class APIs {
   }
 
   Future<Map<String, dynamic>?> fetchUserCycle(String userId) async {
-    final url = Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/get-user-cycle?userId=$userId'); 
+    final url = Uri.parse(
+        'https://us-central1-ovia-app.cloudfunctions.net/api/get-user-cycle?userId=$userId');
 
     try {
       final response = await http.get(url);
@@ -66,7 +68,8 @@ class APIs {
     lmp = lmp;
 
     final response = await http.post(
-      Uri.parse('https://us-central1-ovia-app.cloudfunctions.net/api/save-pregnancy-info'),
+      Uri.parse(
+          'https://us-central1-ovia-app.cloudfunctions.net/api/save-pregnancy-info'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
@@ -83,4 +86,31 @@ class APIs {
     }
   }
 
+  Future<Map<String, dynamic>?> fetchPregnancyInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return null;
+    }
+    final userId = user.uid;
+
+    final url = Uri.parse(
+        'https://us-central1-ovia-app.cloudfunctions.net/api/track-pregnancy?userId=$userId');
+
+    try {
+      final response = await http.get(url);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data;
+      } else {
+        print('Error: ${response.statusCode} - ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching pregnancy info: $e');
+      return null;
+    }
+  }
 }
