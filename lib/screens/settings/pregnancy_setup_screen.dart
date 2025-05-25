@@ -75,6 +75,7 @@ class _PregnancySetupScreenState extends State<PregnancySetupScreen> {
     try{
       final response = await APIs().postPregnancyInfo(
         userId: userId,
+        isPregnant: isPregnant,
         weeksPregnant: int.parse(weeksController.text),
         dueDate: selectedDueDate?.toIso8601String() ?? '',
         lmp: selectedlmpDate?.toIso8601String() ?? '',

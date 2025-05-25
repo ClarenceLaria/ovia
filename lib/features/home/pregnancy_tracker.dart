@@ -11,6 +11,7 @@ class PregnancyTracker extends StatefulWidget {
 
 class _PregnancyTrackerState extends State<PregnancyTracker> {
   final image = 'assets/images/baby.png';
+  bool isPregnant = false;
   double progress = 0.0;
   int weeksPregnant = 0;
 
@@ -63,12 +64,32 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
       ),
       child: Column(
         children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          // const SizedBox(height: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              LegendDot(color: Colors.pink, label: "Period phase"),
-              SizedBox(width: 16),
-              LegendDot(color: Colors.purple, label: "Fertile window"),
+              if (isPregnant) ...[
+                const LegendDot(
+                    color: Colors.purple, label: "Pregnancy Progress"),
+              ] else ...[
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LegendDot(color: Colors.red, label: "Menstrual Phase"),
+                    SizedBox(width: 8),
+                    LegendDot(
+                        color: Colors.lightBlue, label: "Follicular Phase"),
+                  ],
+                ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    LegendDot(color: Colors.purple, label: "Ovulation"),
+                    SizedBox(width: 8),
+                    LegendDot(color: Colors.orange, label: "Luteal Phase"),
+                  ],
+                )
+              ]
             ],
           ),
           const SizedBox(height: 16),
@@ -86,17 +107,27 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
                 ),
               ),
               Container(
-                  width: 150,
-                  height: 150,
+                  width: isPregnant ? 150 : 200,
+                  height: isPregnant ? 150 : 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(150),
                     color: Colors.pink.shade100.withOpacity(0.25),
                   ),
-                  padding: const EdgeInsets.all(20),
-                  child: Image.asset('assets/images/baby.png', height: 80)),
+                  padding: EdgeInsets.all(isPregnant ? 20 : 10),
+                  child: Image.asset(
+                      isPregnant
+                          ? 'assets/images/baby.png'
+                          : 'assets/images/menstrual-cycle.webp',
+                      height: 80)),
             ],
           ),
           const SizedBox(height: 10),
+          Text(
+            isPregnant
+                ? "Week $weeksPregnant of Pregnancy"
+                : "Cycle Day 5: Ovulation Approaching",
+            style: const TextStyle(fontSize: 14),
+          ),
           OutlinedButton(
             onPressed: () {
               Navigator.push(
@@ -113,7 +144,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
               ),
             ),
             child: Text(
-              weeksPregnant.toString(),
+              isPregnant ? 'week ${weeksPregnant.toString()}' : 'Day 5',
               style: const TextStyle(fontSize: 12),
             ),
           ),

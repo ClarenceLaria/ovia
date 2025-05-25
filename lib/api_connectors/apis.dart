@@ -59,6 +59,7 @@ class APIs {
 
   Future<String> postPregnancyInfo({
     required String userId,
+    required bool isPregnant,
     weeksPregnant,
     dueDate,
     lmp, //last menstrual period
@@ -73,6 +74,7 @@ class APIs {
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'userId': userId,
+        'isPregnant': isPregnant,
         'weeksPregnant': weeksPregnant,
         'dueDate': dueDate,
         'lmp': lmp,
