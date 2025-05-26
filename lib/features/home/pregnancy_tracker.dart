@@ -10,11 +10,18 @@ class PregnancyTracker extends StatefulWidget {
 }
 
 class _PregnancyTrackerState extends State<PregnancyTracker> {
-  final image = 'assets/images/baby.png';
+  // Variables for pregnancy tracking
   bool isPregnant = false;
   double progress = 0.0;
   int weeksPregnant = 0;
 
+  //Variables for menstrual cycle tracking
+  final int currentDay = 10;
+  final int totalDays = 28;
+  final String currentPhase = 'Follicular Phase';
+  double get menstrualCycleProgress => currentDay / totalDays;
+
+  // Pregnancy Data fetching
   Future<void> fetchPregnancyInfo() async {
     try {
       final result = await APIs().fetchPregnancyInfo();
@@ -22,6 +29,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
       if (result != null) {
         if (!mounted) return;
         setState(() {
+          isPregnant = result['isPregnant'];
           progress = (result['percentageProgress'] as num?)?.toDouble() ?? 0.0;
           weeksPregnant = result['weeksPregnant'] as int? ?? 0;
         });
@@ -44,6 +52,21 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
           backgroundColor: Colors.red,
         ),
       );
+    }
+  }
+
+  Color get phaseColor {
+    switch (currentPhase) {
+      case 'Menstrual Phase':
+        return Colors.red;
+      case 'Follicular Phase':
+        return Colors.lightBlue;
+      case 'Ovulation Phase':
+        return Colors.purple;
+      case 'Luteal Phase':
+        return Colors.orange;
+      default:
+        return Colors.grey;
     }
   }
 
@@ -99,11 +122,16 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
               SizedBox(
                 width: 200,
                 height: 200,
-                child: CircularProgressIndicator(
+                child: isPregnant ? CircularProgressIndicator(
                   value: progress / 100,
                   strokeWidth: 15,
                   backgroundColor: Colors.pink.shade100,
                   valueColor: const AlwaysStoppedAnimation(Colors.purple),
+                ) : CircularProgressIndicator(
+                  value: progress,
+                  strokeWidth: 15,
+                  backgroundColor: Colors.grey.shade200,
+                  valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
                 ),
               ),
               Container(
@@ -125,7 +153,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
           Text(
             isPregnant
                 ? "Week $weeksPregnant of Pregnancy"
-                : "Cycle Day 5: Ovulation Approaching",
+                : "Cycle Day $currentDay: Ovulation Approaching",
             style: const TextStyle(fontSize: 14),
           ),
           OutlinedButton(
@@ -144,7 +172,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
               ),
             ),
             child: Text(
-              isPregnant ? 'week ${weeksPregnant.toString()}' : 'Day 5',
+              isPregnant ? 'week ${weeksPregnant.toString()}' : 'Day $currentDay',
               style: const TextStyle(fontSize: 12),
             ),
           ),
