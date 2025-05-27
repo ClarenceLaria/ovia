@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ovia_app/api_connectors/apis.dart';
 import 'package:ovia_app/screens/mood_and_sex_tracker.dart';
@@ -16,10 +17,37 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
   int weeksPregnant = 0;
 
   //Variables for menstrual cycle tracking
-  final int currentDay = 10;
-  final int totalDays = 28;
-  final String currentPhase = 'Follicular Phase';
-  double get menstrualCycleProgress => currentDay / totalDays;
+  int currentDay = 0;
+  int totalDays = 0;
+  String currentPhase = '';
+  double get menstrualCycleProgress {
+    if (totalDays <= 0) return 0.0;
+    return currentDay / totalDays;
+  }
+
+  String? getCurrentUserId() {
+    final user = FirebaseAuth.instance.currentUser;
+    return user?.uid;
+  }
+
+  // FETCH for menstrual cycle phases
+  void getCycleData() async {
+    final userId = getCurrentUserId();
+    final data = await APIs().fetchUserCycle(userId!);
+
+    if (!mounted) return;
+    
+    if (data != null) {
+      setState(() {
+        currentDay = data['currentDay'] as int? ?? 0;
+        currentPhase = data['currentPhase'] as String? ?? '';
+        totalDays = data['cycleLength'] as int? ?? 28; 
+      });
+      print("Current Day: $currentDay, Current Phase: $currentPhase, Total Days: $totalDays");
+    } else {
+      print("Failed to fetch user cycle.");
+    }
+  }
 
   // Pregnancy Data fetching
   Future<void> fetchPregnancyInfo() async {
@@ -55,6 +83,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
     }
   }
 
+  // Color by phase
   Color get phaseColor {
     switch (currentPhase) {
       case 'Menstrual Phase':
@@ -62,6 +91,8 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
       case 'Follicular Phase':
         return Colors.lightBlue;
       case 'Ovulation Phase':
+        return Colors.purple;
+      case 'Fertile Window':
         return Colors.purple;
       case 'Luteal Phase':
         return Colors.orange;
@@ -74,6 +105,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
   void initState() {
     super.initState();
     fetchPregnancyInfo();
+    getCycleData();
   }
 
   @override
@@ -122,17 +154,19 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
               SizedBox(
                 width: 200,
                 height: 200,
-                child: isPregnant ? CircularProgressIndicator(
-                  value: progress / 100,
-                  strokeWidth: 15,
-                  backgroundColor: Colors.pink.shade100,
-                  valueColor: const AlwaysStoppedAnimation(Colors.purple),
-                ) : CircularProgressIndicator(
-                  value: progress,
-                  strokeWidth: 15,
-                  backgroundColor: Colors.grey.shade200,
-                  valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
-                ),
+                child: isPregnant
+                    ? CircularProgressIndicator(
+                        value: progress / 100,
+                        strokeWidth: 15,
+                        backgroundColor: Colors.pink.shade100,
+                        valueColor: const AlwaysStoppedAnimation(Colors.purple),
+                      )
+                    : CircularProgressIndicator(
+                        value: menstrualCycleProgress,
+                        strokeWidth: 15,
+                        backgroundColor: Colors.grey.shade200,
+                        valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
+                      ),
               ),
               Container(
                   width: isPregnant ? 150 : 200,
@@ -172,7 +206,9 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
               ),
             ),
             child: Text(
-              isPregnant ? 'week ${weeksPregnant.toString()}' : 'Day $currentDay',
+              isPregnant
+                  ? 'week ${weeksPregnant.toString()}'
+                  : 'Day $currentDay',
               style: const TextStyle(fontSize: 12),
             ),
           ),
