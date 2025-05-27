@@ -118,7 +118,14 @@ class _CalendarState extends State<CycleCalendar> {
               return _cycleDot(day, Colors.purple);
             }
             return null;
-          }),
+          },
+          todayBuilder: (context, day, focusedDay){
+            if(ovulationDays.any((d) => _isSameDay(d, day))){
+              return _cycleDot(day, Colors.black, label: "🥚");
+            } else {
+              _cycleDot(day, Colors.black, label: "Today");
+            }
+          },),
           availableCalendarFormats: const {
             CalendarFormat.twoWeeks: '2 Weeks',
           },

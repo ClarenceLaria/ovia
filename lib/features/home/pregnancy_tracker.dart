@@ -36,14 +36,15 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
     final data = await APIs().fetchUserCycle(userId!);
 
     if (!mounted) return;
-    
+
     if (data != null) {
       setState(() {
         currentDay = data['currentDay'] as int? ?? 0;
         currentPhase = data['currentPhase'] as String? ?? '';
-        totalDays = data['cycleLength'] as int? ?? 28; 
+        totalDays = data['cycleLength'] as int? ?? 28;
       });
-      print("Current Day: $currentDay, Current Phase: $currentPhase, Total Days: $totalDays");
+      print(
+          "Current Day: $currentDay, Current Phase: $currentPhase, Total Days: $totalDays");
     } else {
       print("Failed to fetch user cycle.");
     }
@@ -72,7 +73,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
         );
       }
     } catch (e) {
-      if (!mounted) return;
+      // if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Internal Server Error'),
@@ -187,7 +188,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
           Text(
             isPregnant
                 ? "Week $weeksPregnant of Pregnancy"
-                : "Cycle Day $currentDay: Ovulation Approaching",
+                : "Cycle Day $currentDay: $currentPhase",
             style: const TextStyle(fontSize: 14),
           ),
           OutlinedButton(
