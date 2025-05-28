@@ -32,6 +32,9 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
     "😊 Depressed",
     "😊 Feeling guilty",
     "😊 Confused",
+    "😊 Lonely",
+    "😊 Overwhelmed",
+    "😊 Stressed",
   ];
 
   void _onApply() {

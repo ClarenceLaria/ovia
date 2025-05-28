@@ -12,6 +12,7 @@ class PregnancyTracker extends StatefulWidget {
 
 class _PregnancyTrackerState extends State<PregnancyTracker> {
   // Variables for pregnancy tracking
+  bool isLoading = true;
   bool isPregnant = false;
   double progress = 0.0;
   int weeksPregnant = 0;
@@ -32,6 +33,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
 
   // FETCH for menstrual cycle phases
   void getCycleData() async {
+    isLoading = true;
     final userId = getCurrentUserId();
     final data = await APIs().fetchUserCycle(userId!);
 
@@ -42,6 +44,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
         currentDay = data['currentDay'] as int? ?? 0;
         currentPhase = data['currentPhase'] as String? ?? '';
         totalDays = data['cycleLength'] as int? ?? 28;
+        isLoading = false;
       });
       print(
           "Current Day: $currentDay, Current Phase: $currentPhase, Total Days: $totalDays");
@@ -53,14 +56,16 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
   // Pregnancy Data fetching
   Future<void> fetchPregnancyInfo() async {
     try {
+      isLoading = true;
       final result = await APIs().fetchPregnancyInfo();
       print(result);
       if (result != null) {
         if (!mounted) return;
         setState(() {
-          isPregnant = result['isPregnant'];
+          isPregnant = result['isPregnant'] == true;
           progress = (result['percentageProgress'] as num?)?.toDouble() ?? 0.0;
           weeksPregnant = result['weeksPregnant'] as int? ?? 0;
+          isLoading = false;
         });
       } else {
         if (!mounted) return;
@@ -111,111 +116,116 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        children: [
-          // const SizedBox(height: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (isPregnant) ...[
-                const LegendDot(
-                    color: Colors.purple, label: "Pregnancy Progress"),
-              ] else ...[
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LegendDot(color: Colors.red, label: "Menstrual Phase"),
-                    SizedBox(width: 8),
-                    LegendDot(
-                        color: Colors.lightBlue, label: "Follicular Phase"),
-                  ],
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    LegendDot(color: Colors.purple, label: "Ovulation"),
-                    SizedBox(width: 8),
-                    LegendDot(color: Colors.orange, label: "Luteal Phase"),
-                  ],
-                )
-              ]
-            ],
-          ),
-          const SizedBox(height: 16),
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: isPregnant
-                    ? CircularProgressIndicator(
-                        value: progress / 100,
-                        strokeWidth: 15,
-                        backgroundColor: Colors.pink.shade100,
-                        valueColor: const AlwaysStoppedAnimation(Colors.purple),
-                      )
-                    : CircularProgressIndicator(
-                        value: menstrualCycleProgress,
-                        strokeWidth: 15,
-                        backgroundColor: Colors.grey.shade200,
-                        valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
-                      ),
-              ),
-              Container(
-                  width: isPregnant ? 150 : 200,
-                  height: isPregnant ? 150 : 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(150),
-                    color: Colors.pink.shade100.withOpacity(0.25),
+    if (isLoading) {
+      return const CircularProgressIndicator();
+    } else {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          children: [
+            // const SizedBox(height: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (isPregnant) ...[
+                  const LegendDot(
+                      color: Colors.purple, label: "Pregnancy Progress"),
+                ] else ...[
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      LegendDot(color: Colors.red, label: "Menstrual Phase"),
+                      SizedBox(width: 8),
+                      LegendDot(
+                          color: Colors.lightBlue, label: "Follicular Phase"),
+                    ],
                   ),
-                  padding: EdgeInsets.all(isPregnant ? 20 : 10),
-                  child: Image.asset(
-                      isPregnant
-                          ? 'assets/images/baby.png'
-                          : 'assets/images/menstrual-cycle.webp',
-                      height: 80)),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Text(
-            isPregnant
-                ? "Week $weeksPregnant of Pregnancy"
-                : "Cycle Day $currentDay: $currentPhase",
-            style: const TextStyle(fontSize: 14),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MoodAndSexTracker(),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      LegendDot(color: Colors.purple, label: "Ovulation"),
+                      SizedBox(width: 8),
+                      LegendDot(color: Colors.orange, label: "Luteal Phase"),
+                    ],
+                  )
+                ]
+              ],
+            ),
+            const SizedBox(height: 16),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 200,
+                  height: 200,
+                  child: isPregnant
+                      ? CircularProgressIndicator(
+                          value: progress / 100,
+                          strokeWidth: 15,
+                          backgroundColor: Colors.pink.shade100,
+                          valueColor:
+                              const AlwaysStoppedAnimation(Colors.purple),
+                        )
+                      : CircularProgressIndicator(
+                          value: menstrualCycleProgress,
+                          strokeWidth: 15,
+                          backgroundColor: Colors.grey.shade200,
+                          valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
+                        ),
                 ),
-              );
-            },
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(color: Colors.pink.shade300, width: 2),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                Container(
+                    width: isPregnant ? 150 : 200,
+                    height: isPregnant ? 150 : 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(150),
+                      color: Colors.pink.shade100.withOpacity(0.25),
+                    ),
+                    padding: EdgeInsets.all(isPregnant ? 20 : 10),
+                    child: Image.asset(
+                        isPregnant
+                            ? 'assets/images/baby.png'
+                            : 'assets/images/menstrual-cycle.webp',
+                        height: 80)),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Text(
+              isPregnant
+                  ? "Week $weeksPregnant of Pregnancy"
+                  : "Cycle Day $currentDay: $currentPhase",
+              style: const TextStyle(fontSize: 14),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MoodAndSexTracker(),
+                  ),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.pink.shade300, width: 2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                isPregnant
+                    ? 'week ${weeksPregnant.toString()}'
+                    : 'Day $currentDay',
+                style: const TextStyle(fontSize: 12),
               ),
             ),
-            child: Text(
-              isPregnant
-                  ? 'week ${weeksPregnant.toString()}'
-                  : 'Day $currentDay',
-              style: const TextStyle(fontSize: 12),
-            ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 }
 
