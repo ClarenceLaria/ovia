@@ -73,7 +73,7 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
         );
       }
     } catch (e) {
-      // if (!mounted) return;
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Internal Server Error'),

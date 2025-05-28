@@ -124,7 +124,8 @@ class _CalendarState extends State<CycleCalendar> {
               return _cycleDot(day, Colors.black, label: "🥚");
             } else {
               _cycleDot(day, Colors.black, label: "Today");
-            }
+            } 
+            return null;
           },),
           availableCalendarFormats: const {
             CalendarFormat.twoWeeks: '2 Weeks',

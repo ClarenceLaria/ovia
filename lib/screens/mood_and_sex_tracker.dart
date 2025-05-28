@@ -1,7 +1,47 @@
 import 'package:flutter/material.dart';
 
-class MoodAndSexTracker extends StatelessWidget {
+class MoodAndSexTracker extends StatefulWidget {
   const MoodAndSexTracker({super.key});
+
+  @override
+  State<MoodAndSexTracker> createState() => _MoodAndSexTrackerState();
+}
+
+class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
+  final Set<String> selectedSexOptions = {};
+  final Set<String> selectedMoods = {};
+
+  final List<Map<String, dynamic>> sexOptions = [
+    {"text": "Didn't have sex", "color": Colors.redAccent},
+    {"text": "Protected sex", "color": Colors.amber},
+    {"text": "Unprotected sex", "color": Colors.deepOrange},
+    {"text": "High sex drive", "color": Colors.green},
+    {"text": "Low sex drive", "color": Colors.pinkAccent},
+    {"text": "Masturbations", "color": Colors.deepPurple},
+  ];
+
+  final List<String> moodOptions = [
+    "😊 Calm",
+    "😊 Happy",
+    "😊 Energetic",
+    "😊 Frisky",
+    "😊 Mood swings",
+    "😊 Irritated",
+    "😊 Sad",
+    "😊 Anxious",
+    "😊 Depressed",
+    "😊 Feeling guilty",
+    "😊 Confused",
+  ];
+
+  void _onApply() {
+    // You can send this data to backend or show it in another screen
+    print('Selected Sex Options: $selectedSexOptions');
+    print('Selected Moods: $selectedMoods');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Selections applied!')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +49,7 @@ class MoodAndSexTracker extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         leading: Padding(
-          padding: const EdgeInsets.only(left: 16.0, top:8.0, bottom: 8.0),
+          padding: const EdgeInsets.only(left: 16.0, top: 8.0, bottom: 8.0),
           child: Container(
             width: 36,
             height: 36,
@@ -33,18 +73,18 @@ class MoodAndSexTracker extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Color(0xFFF0B3F3), // light purple-pink
-                  Color(0xFFF7D7C8), // light peach
+                  Color(0xFFF0B3F3),
+                  Color(0xFFF7D7C8),
                 ],
               ),
             ),
             child: SafeArea(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Back button and search
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
@@ -60,43 +100,44 @@ class MoodAndSexTracker extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-          
-                    // Categories title
                     const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Categories',
                           style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          'Edit',
-                          style: TextStyle(color: Colors.grey),
-                        ),
+                        Text('Edit', style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                     const SizedBox(height: 8),
-          
-                    // Sex and sex drive
                     _sectionTitle('Sex and sex drive'),
-                    const Wrap(
+                    Wrap(
                       spacing: 10,
                       runSpacing: 10,
-                      children: [
-                        _IconChip(text: "Didn't have sex", color: Colors.redAccent),
-                        _IconChip(text: "Protected sex", color: Colors.amber),
-                        _IconChip(text: "Unprotected sex", color: Colors.deepOrange),
-                        _IconChip(text: "High sex drive", color: Colors.green),
-                        _IconChip(text: "Low sex drive", color: Colors.pinkAccent),
-                        _IconChip(text: "Masturbations", color: Colors.deepPurple),
-                      ],
+                      children: sexOptions.map((option) {
+                        final isSelected =
+                            selectedSexOptions.contains(option["text"]);
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (isSelected) {
+                                selectedSexOptions.remove(option["text"]);
+                              } else {
+                                selectedSexOptions.add(option["text"]);
+                              }
+                            });
+                          },
+                          child: _IconChip(
+                            text: option["text"],
+                            color: option["color"],
+                            selected: isSelected,
+                          ),
+                        );
+                      }).toList(),
                     ),
                     const SizedBox(height: 24),
-          
-                    // Mood section
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -107,42 +148,44 @@ class MoodAndSexTracker extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
                             child: _sectionTitle('Mood'),
                           ),
-          
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: const Wrap(
+                            child: Wrap(
                               spacing: 5,
                               runSpacing: 5,
-                              children: [
-                                _MoodChip(text: "😊 Calm"),
-                                _MoodChip(text: "😊 Happy", selected: true),
-                                _MoodChip(text: "😊 Energetic"),
-                                _MoodChip(text: "😊 Frisky"),
-                                _MoodChip(text: "😊 Mood swings"),
-                                _MoodChip(text: "😊 Irritated"),
-                                _MoodChip(text: "😊 sad"),
-                                _MoodChip(text: "😊 Anxious"),
-                                _MoodChip(text: "😊 Depressed"),
-                                _MoodChip(text: "😊 Feeling guilty"),
-                                _MoodChip(text: "😊 Confused"),
-                                _MoodChip(text: "😊 Confused"),
-                                _MoodChip(text: "😊 Confused"),
-                              ],
+                              children: moodOptions.map((mood) {
+                                final isSelected = selectedMoods.contains(mood);
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (isSelected) {
+                                        selectedMoods.remove(mood);
+                                      } else {
+                                        selectedMoods.add(mood);
+                                      }
+                                    });
+                                  },
+                                  child: _MoodChip(
+                                    text: mood,
+                                    selected: isSelected,
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 30), // Bottom padding for scroll
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
             ),
           ),
-          // Apply button
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -157,11 +200,9 @@ class MoodAndSexTracker extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: () {},
-                  child: const Text(
-                    'Apply',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
+                  onPressed: _onApply,
+                  child: const Text('Apply',
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                 ),
               ),
             ),
@@ -177,21 +218,22 @@ class MoodAndSexTracker extends StatelessWidget {
       child: Text(
         title,
         style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-        ),
+            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
       ),
     );
   }
 }
 
-// Reusable chip with icon and background color
 class _IconChip extends StatelessWidget {
   final String text;
   final Color color;
+  final bool selected;
 
-  const _IconChip({required this.text, required this.color});
+  const _IconChip({
+    required this.text,
+    required this.color,
+    this.selected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +242,11 @@ class _IconChip extends StatelessWidget {
       width: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.white,
+        color: selected ? color.withOpacity(0.2) : Colors.white,
+        border: Border.all(
+          color: selected ? color : Colors.transparent,
+          width: 2,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -208,14 +254,21 @@ class _IconChip extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.bottomRight,
-              child: Text(text, style: const TextStyle(fontSize: 14,),)
+              child: Text(
+                text,
+                style: const TextStyle(fontSize: 14),
+              ),
             ),
             Align(
               alignment: Alignment.topRight,
               child: CircleAvatar(
                 backgroundColor: color,
                 radius: 14,
-                child: const Icon(Icons.favorite_outline, size: 16, color: Colors.white),
+                child: Icon(
+                  selected ? Icons.check : Icons.favorite_outline,
+                  size: 16,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
@@ -225,7 +278,6 @@ class _IconChip extends StatelessWidget {
   }
 }
 
-// Mood chip with optional selection styling
 class _MoodChip extends StatelessWidget {
   final String text;
   final bool selected;
