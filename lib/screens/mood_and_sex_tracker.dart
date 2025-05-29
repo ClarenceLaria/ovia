@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
 
 class MoodAndSexTracker extends StatefulWidget {
   const MoodAndSexTracker({super.key});
@@ -21,29 +22,43 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
   ];
 
   final List<String> moodOptions = [
-    "😊 Calm",
+    "🧘‍♀️ Calm",
     "😊 Happy",
     "😊 Energetic",
-    "😊 Frisky",
-    "😊 Mood swings",
-    "😊 Irritated",
-    "😊 Sad",
-    "😊 Anxious",
+    "😏 Frisky",
+    "😬😞💫 Mood swings",
+    "😠 Irritated",
+    "😔 Sad",
+    "😰 Anxious",
     "😊 Depressed",
-    "😊 Feeling guilty",
-    "😊 Confused",
-    "😊 Lonely",
-    "😊 Overwhelmed",
-    "😊 Stressed",
+    "🥺 Feeling guilty",
+    "😕 Confused",
+    "😶 Lonely",
+    "😩 Overwhelmed",
+    "😫 Stressed",
   ];
 
-  void _onApply() {
-    // You can send this data to backend or show it in another screen
-    print('Selected Sex Options: $selectedSexOptions');
-    print('Selected Moods: $selectedMoods');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Selections applied!')),
-    );
+  void _onApply() async {
+    final result = await APIs.submitMoodAndSexData(
+        moods: selectedMoods, sexOptions: selectedSexOptions);
+
+    if (result == 'Mood and Sex data submitted successfully') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selections applied!'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.green,
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: $result'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override

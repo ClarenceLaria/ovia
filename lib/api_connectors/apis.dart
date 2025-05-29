@@ -115,4 +115,36 @@ class APIs {
       return null;
     }
   }
+
+  static Future<String> submitMoodAndSexData(
+      {required Set<String> moods, required Set<String> sexOptions}) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return 'Error: User not logged in';
+      }
+      final userId = user.uid;
+
+      final response = await http.post(
+        Uri.parse(
+            'https://us-central1-ovia-app.cloudfunctions.net/api/post-mood-sex'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'moods': moods.toList(),
+          'sexOptions': sexOptions.toList(),
+        }),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return "Mood and Sex data submitted successfully";
+      } else {
+        print('Error: ${response.statusCode} - ${response.body}');
+        return "Failed to submit Mood and sex data: ${response.body}";
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return "Internal server error: $e";
+    }
+  }
 }
