@@ -178,29 +178,19 @@ class _PregnancyTrackerState extends State<PregnancyTracker> {
                           valueColor: AlwaysStoppedAnimation<Color>(phaseColor),
                         ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MoodAndSexTracker(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                      width: isPregnant ? 150 : 200,
-                      height: isPregnant ? 150 : 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: Colors.pink.shade100.withOpacity(0.25),
-                      ),
-                      padding: EdgeInsets.all(isPregnant ? 20 : 10),
-                      child: Image.asset(
-                          isPregnant
-                              ? 'assets/images/baby.png'
-                              : 'assets/images/menstrual-cycle.webp',
-                          height: 80)),
-                ),
+                Container(
+                    width: isPregnant ? 150 : 200,
+                    height: isPregnant ? 150 : 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(150),
+                      color: Colors.pink.shade100.withOpacity(0.25),
+                    ),
+                    padding: EdgeInsets.all(isPregnant ? 20 : 10),
+                    child: Image.asset(
+                        isPregnant
+                            ? 'assets/images/baby.png'
+                            : 'assets/images/menstrual-cycle.webp',
+                        height: 80)),
               ],
             ),
             const SizedBox(height: 10),

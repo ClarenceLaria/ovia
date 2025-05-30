@@ -9,7 +9,7 @@ class MoodAndSexTracker extends StatefulWidget {
 }
 
 class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
-  final Set<String> selectedSexOptions = {};
+  String? selectedSexOption = '';
   final Set<String> selectedMoods = {};
 
   final List<Map<String, dynamic>> sexOptions = [
@@ -40,7 +40,7 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
 
   void _onApply() async {
     final result = await APIs.submitMoodAndSexData(
-        moods: selectedMoods, sexOptions: selectedSexOptions);
+        moods: selectedMoods, sexOption: selectedSexOption!);
 
     if (result == 'Mood and Sex data submitted successfully') {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,13 +87,17 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFFF0B3F3),
-                  Color(0xFFF7D7C8),
-                ],
+              // gradient: LinearGradient(
+              //   begin: Alignment.topLeft,
+              //   end: Alignment.bottomRight,
+              //   colors: [
+              //     Color(0xFFF0B3F3),
+              //     Color(0xFFF7D7C8),
+              //   ],
+              // ),
+              image: DecorationImage(
+                image: AssetImage('assets/images/phone-bg.webp'),
+                fit: BoxFit.fill,
               ),
             ),
             child: SafeArea(
@@ -135,16 +139,12 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
                       spacing: 10,
                       runSpacing: 10,
                       children: sexOptions.map((option) {
-                        final isSelected =
-                            selectedSexOptions.contains(option["text"]);
+                        final isSelected = selectedSexOption == option["text"];
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              if (isSelected) {
-                                selectedSexOptions.remove(option["text"]);
-                              } else {
-                                selectedSexOptions.add(option["text"]);
-                              }
+                              selectedSexOption =
+                                  isSelected ? null : option["text"];
                             });
                           },
                           child: _IconChip(

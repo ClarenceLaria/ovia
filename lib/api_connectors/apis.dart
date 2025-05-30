@@ -117,7 +117,7 @@ class APIs {
   }
 
   static Future<String> submitMoodAndSexData(
-      {required Set<String> moods, required Set<String> sexOptions}) async {
+      {required Set<String> moods, required String sexOption}) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) {
@@ -132,7 +132,7 @@ class APIs {
         body: jsonEncode({
           'userId': userId,
           'moods': moods.toList(),
-          'sexOptions': sexOptions.toList(),
+          'sexOption': sexOption,
         }),
       );
 
