@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/core/notifications/daily_notifications.dart';
+import 'package:ovia_app/core/notifications/notification_service.dart';
 import 'package:ovia_app/screens/onboarding_screen.dart';
 import 'core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  tz.initializeTimeZones();
+  await NotificationService.init();
+  await DailyNotificationService.scheduleDailyReminder(
+    id: 1,
+    title: 'Don’t forget!',
+    body: 'Log your mood and symptoms today 🌸',
+    hour: 8,
+    minute: 0,
+  );
   runApp(const MyApp());
 }
 

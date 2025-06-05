@@ -87,14 +87,6 @@ class _MoodAndSexTrackerState extends State<MoodAndSexTracker> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              // gradient: LinearGradient(
-              //   begin: Alignment.topLeft,
-              //   end: Alignment.bottomRight,
-              //   colors: [
-              //     Color(0xFFF0B3F3),
-              //     Color(0xFFF7D7C8),
-              //   ],
-              // ),
               image: DecorationImage(
                 image: AssetImage('assets/images/phone-bg.webp'),
                 fit: BoxFit.fill,
