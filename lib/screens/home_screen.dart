@@ -8,10 +8,19 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color.fromARGB(255, 245, 245, 245),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
       body: SafeArea(
-        child: Column(
+          child: Stack(children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/phone-bg.webp'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const Column(
           children: [
             Header(),
             SizedBox(height: 10),
@@ -20,8 +29,8 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 10),
             PregnancyTracker(),
           ],
-        )
-      ),
+        ),
+      ])),
     );
   }
 }

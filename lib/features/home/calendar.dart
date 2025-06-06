@@ -28,7 +28,7 @@ class _CalendarState extends State<CycleCalendar> {
     final data = await APIs().fetchUserCycle(userId!);
 
     if (!mounted) return;
-    
+
     if (data != null) {
       setState(() {
         periodDays = List<DateTime>.from(
@@ -64,52 +64,36 @@ class _CalendarState extends State<CycleCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/bg.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: TableCalendar(
-          firstDay: DateTime.utc(2020, 1, 1),
-          lastDay: DateTime.utc(2030, 12, 31),
-          focusedDay: _focusedDay,
-          selectedDayPredicate: (day) =>
-              _selectedDay != null && _isSameDay(_selectedDay!, day),
-          onDaySelected: (selectedDay, focusedDay) {
-            setState(() {
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay;
-            });
-          },
-          calendarStyle: const CalendarStyle(
-            todayDecoration: BoxDecoration(
-              color: Colors.black,
-              shape: BoxShape.circle,
-            ),
-            selectedDecoration: BoxDecoration(
-              color: Colors.deepPurple,
-              shape: BoxShape.circle,
-            ),
-            markerDecoration: BoxDecoration(
-              color: Colors.blue,
-              shape: BoxShape.circle,
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: TableCalendar(
+        firstDay: DateTime.utc(2020, 1, 1),
+        lastDay: DateTime.utc(2030, 12, 31),
+        focusedDay: _focusedDay,
+        selectedDayPredicate: (day) =>
+            _selectedDay != null && _isSameDay(_selectedDay!, day),
+        onDaySelected: (selectedDay, focusedDay) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+          });
+        },
+        calendarStyle: const CalendarStyle(
+          todayDecoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
           ),
-          calendarBuilders:
-              CalendarBuilders(defaultBuilder: (context, day, focusedDay) {
-            if (ovulationDays.any((d) => _isSameDay(d, day))) {
-              return _cycleDot(day, Colors.blue, label: "🥚");
-            } else if (periodDays.any((d) => _isSameDay(d, day))) {
-              return _cycleDot(day, Colors.pink);
-            } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
-              return _cycleDot(day, Colors.purple);
-            }
-            return null;
-          }, outsideBuilder: (context, day, focusedDay) {
+          selectedDecoration: BoxDecoration(
+            color: Colors.deepPurple,
+            shape: BoxShape.circle,
+          ),
+          markerDecoration: BoxDecoration(
+            color: Colors.blue,
+            shape: BoxShape.circle,
+          ),
+        ),
+        calendarBuilders: CalendarBuilders(
+          defaultBuilder: (context, day, focusedDay) {
             if (ovulationDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.blue, label: "🥚");
             } else if (periodDays.any((d) => _isSameDay(d, day))) {
@@ -119,24 +103,34 @@ class _CalendarState extends State<CycleCalendar> {
             }
             return null;
           },
-          todayBuilder: (context, day, focusedDay){
-            if(ovulationDays.any((d) => _isSameDay(d, day))){
+          outsideBuilder: (context, day, focusedDay) {
+            if (ovulationDays.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.blue, label: "🥚");
+            } else if (periodDays.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.pink);
+            } else if (fertileWindow.any((d) => _isSameDay(d, day))) {
+              return _cycleDot(day, Colors.purple);
+            }
+            return null;
+          },
+          todayBuilder: (context, day, focusedDay) {
+            if (ovulationDays.any((d) => _isSameDay(d, day))) {
               return _cycleDot(day, Colors.black, label: "🥚");
             } else {
               _cycleDot(day, Colors.black, label: "Today");
-            } 
+            }
             return null;
-          },),
-          availableCalendarFormats: const {
-            CalendarFormat.twoWeeks: '2 Weeks',
-          },
-          calendarFormat: _calendarFormat,
-          onFormatChanged: (format) {
-            setState(() {
-              _calendarFormat = format;
-            });
           },
         ),
+        availableCalendarFormats: const {
+          CalendarFormat.twoWeeks: '2 Weeks',
+        },
+        calendarFormat: _calendarFormat,
+        onFormatChanged: (format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        },
       ),
     );
   }
