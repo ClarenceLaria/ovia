@@ -11,12 +11,13 @@ Future<void> main() async {
   await Firebase.initializeApp();
   tz.initializeTimeZones();
   await NotificationService.init();
-  await DailyNotificationService.scheduleDailyReminder(
+  await DailyNotificationService().initNotification();
+  await DailyNotificationService().scheduleDailyReminder(
     id: 1,
     title: 'Don’t forget!',
     body: 'Log your mood and symptoms today 🌸',
-    hour: 7,
-    minute: 0,
+    hour: 17,
+    minute: 20,
   );
   runApp(const MyApp());
 }
