@@ -32,6 +32,13 @@ class DailyNotificationService {
     //initialize the plugin
     await _notifications.initialize(initSettings);
 
+    // ✅ Request SCHEDULE_EXACT_ALARM permission (Android 12+)
+    await _notifications
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.requestExactAlarmsPermission();
+
+
     tz.initializeTimeZones();
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
@@ -106,5 +113,14 @@ class DailyNotificationService {
 
   Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
+  }
+
+
+  // Check if app has permission to schedule exact alarms
+  Future<bool?> checkExactAlarmPermission() async {
+    return await _notifications
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.canScheduleExactNotifications();
   }
 }
