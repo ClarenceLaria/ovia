@@ -70,6 +70,7 @@ class DailyNotificationService {
     required int minute,
   }) async {
     final now = tz.TZDateTime.now(tz.local);
+    print("local time zone: ${tz.local}, current time: $now, ${tz.local.name}");
 
     var scheduledDate = tz.TZDateTime(
       tz.local,
@@ -97,6 +98,7 @@ class DailyNotificationService {
         iOS: DarwinNotificationDetails(),
       ),
       matchDateTimeComponents: DateTimeComponents.time,
+      payload: 'daily_reminder_payload',
     );
     print(
         'Notification scheduled for: ${scheduledDate.hour}:${scheduledDate.minute}');
@@ -105,11 +107,4 @@ class DailyNotificationService {
   Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
   }
-
-  // static tz.TZDateTime _nextInstance(int hour, int minute) {
-  //   final now = tz.TZDateTime.now(tz.local);
-  //   var scheduled = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-  //   if (scheduled.isBefore(now)) scheduled = scheduled.add(const Duration(days: 1));
-  //   return scheduled;
-  // }
 }

@@ -16,8 +16,8 @@ Future<void> main() async {
     id: 1,
     title: 'Don’t forget!',
     body: 'Log your mood and symptoms today 🌸',
-    hour: 17,
-    minute: 20,
+    hour: 8,
+    minute: 0,
   );
   runApp(const MyApp());
 }

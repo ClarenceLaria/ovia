@@ -152,22 +152,22 @@ class _PartnerScreenState extends State<PartnerScreen> {
                     backgroundColor: Colors.white,
                     foregroundColor: Colors.black,
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     final now = DateTime.now();
-                    DailyNotificationService().scheduleDailyReminder(
+                    await DailyNotificationService().scheduleDailyReminder(
                       id: 99,
                       title: 'Manual Test!',
                       body: 'This is a test scheduled one minute ahead.',
-                      hour: 13,
-                      minute: 57,
+                      hour: now.hour,
+                      minute: (now.minute + 1) % 60,
                     );
                     print(
                         "Notification scheduled for ${now.hour}:${now.minute + 1}");
-                  // await DailyNotificationService().showNotification(
-                  //   id: 99,
-                  //     title: 'Manual Test!',
-                  //     body: 'This is a test scheduled one minute ahead.',
-                  //   );
+                    // await DailyNotificationService().showNotification(
+                    //   id: 99,
+                    //   title: 'Manual Test!',
+                    //   body: 'This is a test scheduled one minute ahead.',
+                    // );
                   },
                   child: const Text('Cancel invite'),
                 ),
