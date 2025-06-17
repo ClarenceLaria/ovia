@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ovia_app/core/notifications/daily_notifications.dart';
 import 'package:ovia_app/screens/settings/settings_screen.dart';
 
 class PartnerScreen extends StatefulWidget {

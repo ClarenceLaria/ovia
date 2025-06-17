@@ -22,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final TextEditingController confirmPasswordController =
         TextEditingController();
 
+    
     @override
     void dispose() {
       nameController.dispose();
