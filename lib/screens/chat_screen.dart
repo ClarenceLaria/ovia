@@ -27,12 +27,26 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         _messages.add(
           _ChatMessage(
-            text: "Thanks for sharing! I'll analyze your cycle and share insights soon.",
+            text:
+                "Thanks for sharing! I'll analyze your cycle and share insights soon.",
             isUser: false,
           ),
         );
         _isTyping = false;
       });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _messages.add(
+        _ChatMessage(
+          text: 'Talk to me',
+          isUser: false,
+        ),
+      );
     });
   }
 
@@ -75,8 +89,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       message.text,
                       style: TextStyle(
                         color: Colors.black87,
-                        fontWeight:
-                            message.isUser ? FontWeight.w600 : FontWeight.normal,
+                        fontWeight: message.isUser
+                            ? FontWeight.w600
+                            : FontWeight.normal,
                       ),
                     ),
                   ),
@@ -86,6 +101,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           const Divider(height: 1),
           Container(
+            margin: const EdgeInsets.only(bottom: 80),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             color: Colors.white,
             child: Row(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ovia_app/screens/home_screen.dart';
 import 'package:ovia_app/screens/partner_screen.dart';
 import 'package:ovia_app/screens/pregnancy_feed_screen.dart';
-import 'package:ovia_app/screens/pregnancy_home_screen.dart';
+import 'package:ovia_app/screens/chat_screen.dart';
 
 class EntryPoint extends StatefulWidget{
   const EntryPoint({super.key});
@@ -18,7 +18,8 @@ class _EntryPointState extends State<EntryPoint>{
 
   final List<Widget> screens = [
     const HomeScreen(),
-    const PregnancyHomeScreen(),
+    // const PregnancyHomeScreen(),
+    const ChatScreen(),
     const PregnancyFeedScreen(),
     const PartnerScreen(),
   ];
@@ -91,7 +92,8 @@ class _EntryPointState extends State<EntryPoint>{
 
 List<String> buttonNavs = [
   'assets/icons/calendar.png',
-  'assets/icons/app.png',
+  // 'assets/icons/app.png',
+  'assets/icons/chat-ai.png',
   'assets/icons/notification.png',
   'assets/icons/friends.png',
 ];
