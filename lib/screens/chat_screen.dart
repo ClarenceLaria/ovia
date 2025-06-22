@@ -16,7 +16,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (text.trim().isEmpty) return;
 
     setState(() {
-      _messages.add(_ChatMessage(text: text.trim(), isUser: true));
+      _messages.insert(0, _ChatMessage(text: text.trim(), isUser: true));
       _isTyping = true;
     });
 
@@ -25,7 +25,8 @@ class _ChatScreenState extends State<ChatScreen> {
     // Simulate AI response
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
-        _messages.add(
+        _messages.insert(
+          0,
           _ChatMessage(
             text:
                 "Thanks for sharing! I'll analyze your cycle and share insights soon.",
@@ -41,7 +42,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     setState(() {
-      _messages.add(
+      _messages.insert(
+        0,
         _ChatMessage(
           text: 'Talk to me',
           isUser: false,
