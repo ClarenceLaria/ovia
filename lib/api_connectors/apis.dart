@@ -147,4 +147,13 @@ class APIs {
       return "Internal server error: $e";
     }
   }
+
+  Future<String?> getAIResponse(String prompt) async {
+    
+    final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
+
+    final headers = {
+      "Authorization": "Bearer YOUR_API_KEY"
+    };
+  }
 }

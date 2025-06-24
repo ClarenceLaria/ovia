@@ -8,27 +8,40 @@ import 'package:ovia_app/screens/user_info_setup.dart';
 class SplashRouter extends StatelessWidget {
   const SplashRouter({super.key});
 
+  // Future<Widget> _determineStartPage() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final isSetupComplete = prefs.getBool('isSetupComplete') ?? false;
+
+  //   if (isSetupComplete) {
+  //     return const EntryPoint();
+  //   } else {
+  //     return const UserInfoSetupPage();
+  //   }
+  // }
+
   Future<Widget> _determineStartPage() async {
-    //server side check
+  try {
     final user = FirebaseAuth.instance.currentUser;
 
-    if (user == null) {
-      return const LoginScreen();
-    }
+    if (user == null) return const LoginScreen();
 
     final doc = await FirebaseFirestore.instance
         .collection('userinfo')
         .doc(user.uid)
         .get();
 
-    if (doc.exists &&
-        doc.data() != null &&
-        doc.data()!.containsKey('lastPeriodDate')) {
+    final data = doc.data();
+    if (data != null && data['lastPeriodDate'] != null) {
       return const EntryPoint();
     } else {
       return const UserInfoSetupPage();
     }
+  } catch (e) {
+    print("Error in SplashRouter: $e");
+    return const LoginScreen(); // Or a fallback widget
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

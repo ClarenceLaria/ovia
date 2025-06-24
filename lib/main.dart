@@ -5,6 +5,7 @@ import 'package:ovia_app/screens/onboarding_screen.dart';
 import 'core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ Future<void> main() async {
     hour: 8,
     minute: 0,
   );
+  // await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
