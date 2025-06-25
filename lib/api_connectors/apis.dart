@@ -148,12 +148,38 @@ class APIs {
     }
   }
 
-  Future<String?> getAIResponse(String prompt) async {
-    
-    final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
+  Future<Map<String, dynamic>?> fetchUserInfo() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return null;
+    }
+    final userId = user.uid;
 
-    final headers = {
-      "Authorization": "Bearer YOUR_API_KEY"
-    };
+    final url = Uri.parse(
+        'https://us-central1-ovia-app.cloudfunctions.net/api/get-user-info?userId=$userId');
+
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data;
+      } else {
+        print('Error: ${response.statusCode} - ${response.body}');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching user info: $e');
+      return null;
+    }
   }
+
+  // Future<String?> getAIResponse(String prompt) async {
+    
+  //   final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
+
+  //   final headers = {
+  //     "Authorization": "Bearer YOUR_API_KEY"
+  //   };
+  // }
 }

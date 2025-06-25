@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
 import 'package:ovia_app/screens/entry_point.dart';
 import 'package:ovia_app/screens/login_screen.dart';
 import 'package:ovia_app/screens/user_info_setup.dart';
@@ -21,24 +22,16 @@ class SplashRouter extends StatelessWidget {
 
   Future<Widget> _determineStartPage() async {
   try {
-    final user = FirebaseAuth.instance.currentUser;
+    final result = await APIs().fetchUserInfo();
 
-    if (user == null) return const LoginScreen();
-
-    final doc = await FirebaseFirestore.instance
-        .collection('userinfo')
-        .doc(user.uid)
-        .get();
-
-    final data = doc.data();
-    if (data != null && data['lastPeriodDate'] != null) {
+    if (result != null && result['lastPeriodDate'] != null) {
       return const EntryPoint();
     } else {
       return const UserInfoSetupPage();
     }
   } catch (e) {
     print("Error in SplashRouter: $e");
-    return const LoginScreen(); // Or a fallback widget
+    return const LoginScreen(); 
   }
 }
 
