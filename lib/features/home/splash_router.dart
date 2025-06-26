@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ovia_app/api_connectors/apis.dart';
 import 'package:ovia_app/screens/entry_point.dart';
@@ -24,6 +22,7 @@ class SplashRouter extends StatelessWidget {
   try {
     final result = await APIs().fetchUserInfo();
 
+    print("Result from fetchUserInfo: $result");
     if (result != null && result['lastPeriodDate'] != null) {
       return const EntryPoint();
     } else {

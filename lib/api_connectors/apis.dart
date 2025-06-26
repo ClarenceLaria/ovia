@@ -153,6 +153,7 @@ class APIs {
     if (user == null) {
       return null;
     }
+    print("Fetching user info for user: ${user.uid}");
     final userId = user.uid;
 
     final url = Uri.parse(
@@ -174,12 +175,41 @@ class APIs {
     }
   }
 
-  // Future<String?> getAIResponse(String prompt) async {
+  Future<String?> getAIResponse(String prompt) async {
     
-  //   final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
+    final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
 
-  //   final headers = {
-  //     "Authorization": "Bearer YOUR_API_KEY"
-  //   };
-  // }
+    final headers = {
+      "Authorization": "Bearer YOUR_API_KEY",
+      "Content-Type": "application/json",
+      "HTTP-Referer": 'referer',
+      "X-Title": "title",
+    };
+
+    final body = jsonEncode({
+      "model": "deepseek/deepseek-r1-0528-qwen3-8b:free",
+      "messages": [
+        {
+          "role": "user",
+          "content": prompt,
+        }
+      ]
+    });
+
+    try {
+      final response = await http.post(url,headers: headers, body: body);
+
+      if(response.statusCode == 200){
+        final data = jsonEncode(response.body);
+        // final reply = data['choices'][0]['message']['content'];
+        // return reply;
+      } else {
+        print("Error: ${response.statusCode} - ${response.body}");
+        return null;
+      }
+    } catch(error) {
+      print("Request failed: $error");
+      return null;
+    }
+  }
 }
