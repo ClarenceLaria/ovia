@@ -164,6 +164,7 @@ class APIs {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+        print("data for $userId: $data");
         return data;
       } else {
         print('Error: ${response.statusCode} - ${response.body}');

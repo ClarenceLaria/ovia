@@ -23,7 +23,7 @@ class SplashRouter extends StatelessWidget {
     final result = await APIs().fetchUserInfo();
 
     print("Result from fetchUserInfo: $result");
-    if (result != null && result['lastPeriodDate'] != null) {
+    if (result != null) {
       return const EntryPoint();
     } else {
       return const UserInfoSetupPage();
