@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ovia_app/api_connectors/apis.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -12,7 +13,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<_ChatMessage> _messages = [];
   bool _isTyping = false;
 
-  void _sendMessage(String text) {
+  void _sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
     setState(() {
@@ -22,19 +23,32 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _controller.clear();
 
+    final response = await APIs().getAIResponse(text.trim());
+
     // Simulate AI response
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _messages.insert(
-          0,
-          _ChatMessage(
-            text:
-                "Thanks for sharing! I'll analyze your cycle and share insights soon.",
-            isUser: false,
-          ),
-        );
-        _isTyping = false;
-      });
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   setState(() {
+    //     _messages.insert(
+    //       0,
+    //       _ChatMessage(
+    //         text:
+    //             "Thanks for sharing! I'll analyze your cycle and share insights soon.",
+    //         isUser: false,
+    //       ),
+    //     );
+    //     _isTyping = false;
+    //   });
+    // });
+
+    setState(() {
+      _messages.insert(
+        0, 
+        _ChatMessage(
+          isUser: false,
+          text: response ?? "Sorry, I didn't understand that.", 
+        ),
+      );
+      _isTyping = false;
     });
   }
 

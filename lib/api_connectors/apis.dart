@@ -201,9 +201,9 @@ class APIs {
       final response = await http.post(url,headers: headers, body: body);
 
       if(response.statusCode == 200){
-        final data = jsonEncode(response.body);
-        // final reply = data['choices'][0]['message']['content'];
-        // return reply;
+        final data = jsonDecode(response.body);
+        final reply = data['choices'][0]['message']['content'];
+        return reply;
       } else {
         print("Error: ${response.statusCode} - ${response.body}");
         return null;
