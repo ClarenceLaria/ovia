@@ -20,7 +20,7 @@ Future<void> main() async {
     hour: 8,
     minute: 0,
   );
-  // await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 

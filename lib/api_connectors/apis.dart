@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class APIs {
@@ -177,14 +178,19 @@ class APIs {
   }
 
   Future<String?> getAIResponse(String prompt) async {
+    final String apiKey = dotenv.env['DEEPSEEK_API_KEY']!;
+    final String referer = dotenv.env['OPENROUTER_REFERER']!;
+    final String title = dotenv.env['OPENROUTER_TITLE']!;
+
+    print('title: $title, referer: $referer, apiKey: $apiKey');
     
     final url = Uri.parse("https://openrouter.ai/api/v1/chat/completions");
 
     final headers = {
-      "Authorization": "Bearer YOUR_API_KEY",
+      "Authorization": "Bearer $apiKey",
       "Content-Type": "application/json",
-      "HTTP-Referer": 'referer',
-      "X-Title": "title",
+      "HTTP-Referer": referer,
+      "X-Title": title,
     };
 
     final body = jsonEncode({
